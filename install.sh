@@ -10,7 +10,7 @@
 if [ ! -n "$1" ]; then
     echo
     echo "**Error**: you must specify installation folder for CMU programs."
-    echo "Recommended: 'sudo bash install.sh tools'"
+    echo "Recommended: 'bash install.sh tools'"
     exit 64
 fi
 
