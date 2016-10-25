@@ -1,0 +1,108 @@
+Voice model creator for CMU Sphinx
+===============================================================================
+
+This tool contains basic tools for creating a custom domain voice model for use
+with the PocketSphinx decoder.  It is also possible to use the voice models
+created by this tool as the basis for a test-to-speech engine.  
+
+Note this tool has only been tested with Linux Mint 17.3 & 18.
+
+**Please see the LICENSE file for terms of use.**
+
+Linux/Unix installation
+-------------------------------------------------------------------------------
+
+vmc is generally run from within its top-level folder, and the voice model it 
+creates is generated within that folder. i.e.:
+
+    $ ~/vmc
+    $ ~/vmc/new-voice-model
+
+two of the vmc dependencies, sphinxbase and sphinxtrain, are compiled in a 
+location of the user's choice.  To install the vmc dependencies with the 
+provided script, this location must be provided.  It is assumed that the
+location is a direct subdirectory of the user's home directory:
+
+    $ mkdir ~/tools
+
+To install vmc's dependencies, run:
+
+    example: $ sudo bash install.sh [install location]
+
+    $ sudo bash install.sh tools
+
+For example, full installation on an AMD64 computer running Mint 18 would look 
+like this:
+
+    $ cd ~/
+    $ git clone https://github.com/umhau/vmc.git
+    $ mkdir tools
+    $ cd vmc
+    $ sudo bash install.sh tools
+
+See use examples in the next section.
+
+Usage instructions
+-------------------------------------------------------------------------------
+
+This tools brings together a number of disparate data files that are needed for 
+creating a voice model.  This graph illustrates the logic involved:
+
+                   word domain
+                        +
+                        |
+                        v
+        +-------+ sentence list+----------+
+        |               +                 |
+        |               |                 |
+        v               v                 v
+    dictionary      grammar: LM    voice samples
+        +               +                 +
+        |               |                 |
+        |               v                 |
+        +--------> voice model <----------+
+                    training
+                        +
+                        |
+                        v
+                   voice model
+
+Each of these steps, starting with the sentence list (given) and ending with the 
+voice model are contained within this tool.
+
+To use vmc, it is necessary to provide a few perameters.  These are:
+
+    - the model name
+    - the file containing the sentence list
+    - an integer called 'voice training iterations' (VTI)
+
+The tool requests recordings of each sentence provided in the file.  The user is 
+able to specify the number of times each sentence is used is making recordings 
+with the input perameter 'voice training iterations'.  If the value is 0, no 
+voice samples will be requested, and the tool will to as much as it can without 
+them.  Note for brevity's sake the variable is abbreviated VTI.
+
+Example usage:
+
+    $ cd ~/vmc
+    $ sudo bash vmc.sh new-voice-model ../Downloads/sentence-list.txt 2
+
+Note that dependencies are not checked when running vmc.sh.  To check 
+dependencies, see the section above. 
+
+If VTI is > 0, the user will be prompted to read each entry in the 
+sentence list.  
+
+The output of the command will be found at:
+
+    $ ~/vmc/new-voice-model
+
+This folder will contain all necessary files to run PocketSphinx with a custom
+voice model.
+
+
+Non-association
+-------------------------------------------------------------------------------
+
+This tool was not created in conjunction with the CMU Sphinx developers. 
+
