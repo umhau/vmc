@@ -10,7 +10,7 @@
 if [ ! -n "$1" ]; then
     echo
     echo "**Error**: you must specify installation folder for CMU programs."
-    echo "Recommended: 'bash install.sh tools'"
+    echo "Recommended: 'sudo bash install.sh tools'"
     exit 64
 fi
 
@@ -46,15 +46,24 @@ echo -n "Checking for swig..."
 }
 echo
 
+# check for perl
+echo -n "Checking for perl..."
+(perl --version) < /dev/null > /dev/null 2>&1 || {
+  echo
+  echo -n "Installing perl..."
+  sudo apt-get install perl
+  echo "done."
+}
+echo
+
 # check for python development version: needed for sphinxbase
 # There's no good way to check for this, so just install if possible.
 echo "Installing python-dev..."
-(sudo apt-get install python-dev) < /dev/null > /dev/null 2>&1 || {
-  echo
-  echo -n "installing..."
-  #sudo apt-get install python-dev
-  echo "done."
-}
+sudo apt-get install python-dev > /dev/null
+
+# install pyaudio
+echo "Installing python3-pyaudio..."
+sudo apt-get install python3-pyaudio > /dev/null
 
 # check for python3: used in model scripts
 echo -n "Checking for python3..."
