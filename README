@@ -75,6 +75,8 @@ To use vmc, it is necessary to provide a few perameters.  These are:
     - the model name
     - the file containing the sentence list
     - an integer called 'voice training iterations' (VTI)
+    - the location of an audio folder for importing
+    - the name of the corresponding sentence file to imported audio
 
 The tool requests recordings of each sentence provided in the file.  The user is 
 able to specify the number of times each sentence is used is making recordings 
@@ -82,10 +84,26 @@ with the input perameter 'voice training iterations'.  If the value is 0, no
 voice samples will be requested, and the tool will to as much as it can without 
 them.  Note for brevity's sake the variable is abbreviated VTI.
 
-Example usage:
+Also note there are three use cases - when audio is to be added in the course of
+running the script, when it is to be imported, and when I already have it and
+want to ignore it for the time being.  The parameters system I used admittedly
+needs a lot of help.  Learning as I go, all that.  First program to use CLI 
+parameters.
+
+Example usage, recording new audio:
 
     $ cd ~/vmc
     $ sudo bash vmc.sh new-voice-model ../Downloads/sentence-list.txt 2
+
+Example usage, importing previous audio:
+
+    $ cd ~/vmc
+    $ bash vmc.sh voice-model foo -1 old_audio_folder old_audio_sentences.txt
+
+Example usage, ignoring audio files:
+
+    $ cd ~/vmc
+    $ bash vmc.sh voice-model3 arctic_data.txt 0
 
 Note that dependencies are not checked when running vmc.sh.  To check 
 dependencies, see the section above. 
@@ -104,5 +122,7 @@ voice model.
 Non-association
 -------------------------------------------------------------------------------
 
-This tool was not created in conjunction with the CMU Sphinx developers. 
+This tool was not created in conjunction with the CMU Sphinx developers.  Code 
+was not reused except in the case of quick_lm.pl, in which case the original 
+lisence was retained in the script.  
 
