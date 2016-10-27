@@ -27,12 +27,13 @@ location is a direct subdirectory of the user's home directory:
 
 To install vmc's dependencies, run:
 
-    example: $ sudo bash install.sh [install location]
+    $ sudo bash install.sh [install location]
+
+For example:
 
     $ sudo bash install.sh tools
 
-For example, full installation on an AMD64 computer running Mint 18 would look 
-like this:
+Full installation on an AMD64 computer running Mint 18 would look like this:
 
     $ cd ~/
     $ git clone https://github.com/umhau/vmc.git
@@ -46,7 +47,7 @@ Usage instructions
 -------------------------------------------------------------------------------
 
 This tools brings together a number of disparate data files that are needed for 
-creating a voice model.  This graph illustrates the logic involved:
+creating a voice model.  This graph illustrates the data process involved:
 
                    word domain
                         +
