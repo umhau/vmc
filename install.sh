@@ -5,12 +5,13 @@
 # user's home directory.  The script will use all the computer's cores
 # to perform compilations.
 
-
+echo
 # check that installation folder has been specified
 if [ ! -n "$1" ]; then
     echo
     echo "**Error**: you must specify installation folder for CMU programs."
-    echo "Recommended: 'sudo bash install.sh tools'"
+    echo "Folder should be specified relative to the home directory."
+    echo "Recommended: 'bash install.sh tools'"
     exit 64
 fi
 
@@ -25,58 +26,54 @@ fi
 
 
 # CHECK DEPENDENCIES
+# note on installation tactics: I prefer to let apt detect prior installation.
+# It makes the code much nicer to read.
 
 # check for git (needed for installations)
-echo -n "Checking for git..."
-(git --version) < /dev/null > /dev/null 2>&1 || {
-  echo
-  echo -n "installing..."
-  sudo apt-get install git
-  echo "done."
-}
+echo "Installing git..."
+sudo apt-get install git -y
 echo
 
 # check for swig
-echo -n "Checking for swig..."
-(swig -help) < /dev/null > /dev/null 2>&1 || {
-  echo
-  echo -n "Installing swig..."
-  sudo apt-get install swig
-  echo "done."
-}
+echo "Installing swig..."
+sudo apt-get install swig -y
 echo
 
 # check for perl
-echo -n "Checking for perl..."
-(perl --version) < /dev/null > /dev/null 2>&1 || {
-  echo
-  echo -n "Installing perl..."
-  sudo apt-get install perl
-  echo "done."
-}
+echo "Installing perl..."
+sudo apt-get install perl -y
 echo
 
 # check for python development version: needed for sphinxbase
-# There's no good way to check for this, so just install if possible.
 echo "Installing python-dev..."
-sudo apt-get install python-dev > /dev/null
+sudo apt-get install python-dev -y
+echo
 
 # install pyaudio
 echo "Installing python3-pyaudio..."
-sudo apt-get install python3-pyaudio > /dev/null
-
-# check for python3: used in model scripts
-echo -n "Checking for python3..."
-(python3 --version) < /dev/null > /dev/null 2>&1 || {
-  echo
-  echo -n "installing..."
-  sudo apt-get install python3
-  echo "done."
-}
+sudo apt-get install python3-pyaudio -y
 echo
 
+# check for python3: used in model scripts
+echo "Installing python3..."
+sudo apt-get install python3 -y
+echo
+
+echo "Installing libtool..."
+sudo apt-get install libtool-bin -y
+echo
+
+echo "Installing automake..."
+sudo apt-get install automake -y
+echo
+
+echo "Installing autoconf..."
+sudo apt-get install autoconf -y
+echo
+
+
 # check for sphinxbase
-echo -n "Checking for sphinxbase..."
+echo -n "Checking for sphinxbase...."
 if [ ! -d ~/$1/sphinxbase/ ]; then
     echo
     echo "installing..."
@@ -89,11 +86,13 @@ if [ ! -d ~/$1/sphinxbase/ ]; then
     make -j $CORES check
     sudo make -j $CORES install
 else
-  echo "already here."
+  echo "Done."
+  echo "SphinxBase already installed."
+  echo
 fi
 
 # check for sphinxtrain
-echo -n "Checking for sphinxtrain..."
+echo -n "Checking for sphinxtrain...."
 if [ ! -d ~/$1/sphinxtrain/ ]; then
     echo
     echo -n "installing..."
@@ -104,9 +103,11 @@ if [ ! -d ~/$1/sphinxtrain/ ]; then
     ./configure
     make -j $CORES
     sudo make -j $CORES install
-    echo "done."
+    echo "Done."
 else
-  echo "already here."
+  echo "Done."
+  echo "SphinxTrain already installed."
+  echo
 fi
 
 
@@ -125,8 +126,14 @@ if [ ! -d ~/$1/pocketsphinx/ ]; then
     sudo make -j $CORES install
     echo "done."
 else
-  echo "already here."
+  echo "Done."
+  echo "PocketSphinx already installed."
+  echo
 fi
 
+echo "VMC dependency installations completed. See README for next steps."
 echo
-echo "Dependency installations completed."
+
+
+
+
