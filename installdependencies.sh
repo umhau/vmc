@@ -2,7 +2,7 @@
 # 
 # USAGE 
 # 
-#       bash install.sh [installation folder]
+#       bash install.sh [installation folder path]
 # 
 # EXAMPLE
 #
@@ -10,9 +10,9 @@
 # 
 # NOTES
 # 
-#       A number of tools are installed to a user-specified location within the home folder.  These
-#       include SphinxTrain and PocketSphinx.  This installation folder is presumed to be a direct 
-#       subdirectory of the user's home directory.
+#       A number of tools are installed to a user-specified location.  These include SphinxTrain 
+#       and PocketSphinx.  This installation folder is presumed to be a direct subdirectory of the
+#       user's home directory.
 # 
 #       The script will use all the computer's cores to compile packages.
 # 
@@ -20,12 +20,16 @@
 #       they are under active development.
 # 
 
+# VARIABLES =======================================================================================
+
+installation_directory=$1
+
 # PREPARATION =====================================================================================
 
 echo
 
 # check that installation folder has been specified
-if [ ! -n "$1" ]; then
+if [ ! -n "$installation_directory" ]; then
     echo
     echo "**Error**: you must specify installation folder for CMU programs."
     echo "Folder should be specified relative to the home directory."
@@ -38,8 +42,8 @@ CORES=$(nproc --all 2>&1)
 
 
 # make sure folder exists
-if [ ! -d /home/$USER/$1 ]; then
-  mkdir /home/$USER/$1
+if [ ! -d $installation_directory ]; then
+  mkdir $installation_directory
 fi
 
 # INSTALL CMU SPHINX DEPENDENCIES =================================================================
@@ -91,10 +95,10 @@ echo
 
 # check for and install sphinxbase
 echo -n "Checking for sphinxbase...."
-if [ ! -d ~/$1/sphinxbase/ ]; then
+if [ ! -d $installation_directory/sphinxbase/ ]; then
     echo
     echo "installing..."
-    cd ~/$1
+    cd $installation_directory
     git clone https://github.com/cmusphinx/sphinxbase.git
     cd ./sphinxbase
     ./autogen.sh
@@ -110,10 +114,10 @@ fi
 
 # check for and install sphinxtrain
 echo -n "Checking for sphinxtrain...."
-if [ ! -d ~/$1/sphinxtrain/ ]; then
+if [ ! -d $installation_directory/sphinxtrain/ ]; then
     echo
     echo -n "installing..."
-    cd ~/$1
+    cd $installation_directory
     git clone https://github.com/cmusphinx/sphinxtrain.git
     cd ./sphinxtrain
     ./autogen.sh
@@ -130,10 +134,10 @@ fi
 
 # check for and install pocketsphinx
 echo -n "Checking for pocketsphinx..."
-if [ ! -d ~/$1/pocketsphinx/ ]; then
+if [ ! -d $installation_directory/pocketsphinx/ ]; then
     echo
     echo -n "installing..."
-    cd ~/$1
+    cd $installation_directory
     git clone https://github.com/cmusphinx/pocketsphinx.git
     cd ./pocketsphinx
     ./autogen.sh
