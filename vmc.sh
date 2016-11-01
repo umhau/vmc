@@ -50,7 +50,7 @@ elif [[ $2 = '-import' ]]; then
 
 else
 
-    echo "USAGE: bash vmc.sh model-name [ -record OR -import audio/file/dir ] sentence-file output-folder [reps]"
+    echo "USAGE: vmc.sh model-name [ -record OR -import audio/file/dir ] sentence-file output-folder [reps]"
     exit 1
 
 fi
