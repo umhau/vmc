@@ -68,18 +68,21 @@ fdir=/opt/vmc/functions
 
 # OBTAIN REQUISITE FILES --------------------------------------------------------------------------
 
-# get audio files
-if [ $1 = '-record' ]; then 
+echo
+echo "Collecting required files..."
+
+# get audio files and put them where they go
+if [[ $2 = '-record' ]]; then 
 
     mkdir -p $audio_folder
 
     python3 $fdir/getaudio.py $sentence_file $audio_folder $iterations $model_name
 
-elif [ $1 = '-import' ]; then
+elif [[ $2 = '-import' ]]; then
 
     mkdir -p $audio_folder
 
-    cp -r $audio_file_directory $audio_folder
+    cp -a $audio_file_directory/*.wav $audio_folder/
 
 fi
 
@@ -88,13 +91,22 @@ cp -r $tdir/en-us $output_folder
 
 # PRODUCE DERIVATIVE FILES ------------------------------------------------------------------------
 
+echo
+echo "Producing sentence file derivatives..."
+
 # get derivatives of sentence file
 python3 $fdir/format_text.py $sentence_file $model_name $output_folder
+
+echo 
+echo "Producing audio file derivatives..."
 
 # get derivatives of audio files
 bash $fdir/acousticfiles.sh $audio_folder $output_folder/$model_name.fileids
 
 # CREATE MODELS -----------------------------------------------------------------------------------
+
+echo
+echo "Creating models..."
 
 # build language model
 bash $fdir/buildLM.sh $sentence_file $model_name $output_folder
@@ -103,3 +115,5 @@ bash $fdir/buildLM.sh $sentence_file $model_name $output_folder
 bash $fdir/voicemodel.sh $model_name $output_folder $audio_folder $output_folder
 
 
+echo 
+echo "Process complete."
