@@ -152,7 +152,7 @@ else
   echo
 fi
 
-echo "vmc dependency installations completed. See README for next steps."
+echo "vmc dependency installations completed. Run installvmc.sh next."
 echo
 
 
