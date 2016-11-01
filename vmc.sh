@@ -31,7 +31,7 @@ export LD_LIBRARY_PATH=/usr/local/lib
         # set path to include sphinx library location 
         # https://jrmeyer.github.io/installation/2016/01/09/Installing-CMU-Sphinx-on-Ubuntu.html
 
-if [ $2 = '-record' ]; then 
+if [[ $2 = '-record' ]]; then 
 
     sentence_file=$3
     output_folder=$4
@@ -42,7 +42,7 @@ if [ $2 = '-record' ]; then
         iterations=1
     fi
 
-elif [ $2 = '-import' ]; then
+elif [[ $2 = '-import' ]]; then
 
     audio_file_directory=$3
     sentence_file=$4
