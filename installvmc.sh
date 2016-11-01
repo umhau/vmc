@@ -51,6 +51,8 @@ sudo cp -r $scriptpath/functions/* $fdir/
 # move vmc into user's path 
 sudo cp $scriptpath/vmc.sh /usr/local/bin/vmc.sh
 
+# set vmc.sh as executable
+sudo chmod +x /usr/local/bin/vmc.sh
 
 # GET SPHINXTRAIN BINARIES ========================================================================
 
