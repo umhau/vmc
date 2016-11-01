@@ -36,7 +36,8 @@ if [[ $2 = '-record' ]]; then
     sentence_file=$3
     output_folder=$4
 
-    if [[ -z $5 ]]; then
+    if [ -n "$5" ]; then
+
         iterations=$5
     else
         iterations=1
