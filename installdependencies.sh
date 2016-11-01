@@ -2,11 +2,11 @@
 # 
 # USAGE 
 # 
-#       bash install.sh [installation folder path]
+#       bash installdependencies.sh [installation folder path]
 # 
 # EXAMPLE
 #
-#       sudo bash install ~/tools
+#       bash installdependencies.sh ~/tools
 # 
 # NOTES
 # 
@@ -152,7 +152,7 @@ else
   echo
 fi
 
-echo "vmc dependency installations completed. Run installvmc.sh next."
+echo "vmc dependency installations completed. See README for next steps."
 echo
 
 

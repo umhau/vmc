@@ -2,7 +2,7 @@
 # 
 # USAGE
 # 
-#       sudo bash installvmc.sh
+#       bash installvmc.sh
 # 
 # NOTES
 # 
@@ -22,9 +22,18 @@ tdir=/opt/vmc/tools
 
 fdir=/opt/vmc/functions
 
+# CHECK FOR PREVIOUS INSTALLATION =================================================================
+
+if [ -d /opt/vmc/ ]; then
+
+    echo "A version of vmc is already installed.  To uninstall, run uninstallvmc.sh"
+    exit 1
+
+fi
+
 # MOVE VMC FILES ==================================================================================
 
-echo "Installing vmc..."
+echo -n "Installing vmc..."
 
 # create vmc directories
 sudo mkdir -p $tdir
@@ -46,10 +55,10 @@ sudo cp $scriptpath/vmc.sh /usr/local/bin/vmc.sh
 # GET SPHINXTRAIN BINARIES ========================================================================
 
 # copy binary tools into model folder
-cp /usr/local/libexec/sphinxtrain/bw $tdir
-cp /usr/local/libexec/sphinxtrain/map_adapt $tdir
-cp /usr/local/libexec/sphinxtrain/mk_s2sendump $tdir
-cp /usr/local/libexec/sphinxtrain/mllr_solve $tdir
+sudo cp /usr/local/libexec/sphinxtrain/bw $tdir
+sudo cp /usr/local/libexec/sphinxtrain/map_adapt $tdir
+sudo cp /usr/local/libexec/sphinxtrain/mk_s2sendump $tdir
+sudo cp /usr/local/libexec/sphinxtrain/mllr_solve $tdir
 
-echo "Done."
+echo "done."
 
