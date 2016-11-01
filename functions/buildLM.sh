@@ -15,7 +15,7 @@
 # 
 # VARIABLES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-sentence_list=$1
+sentence_list_path=$1
 
 model_name=$2
 
@@ -26,17 +26,18 @@ tools_dir=/opt/vmc/tools
 # COMMANDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # run perl script to create language model
-perl $tools_dir/quick_lm.pl -s $sentence_list &> /dev/null
+perl $tools_dir/quick_lm.pl -s $sentence_list_path #&> /dev/null
 
-# quick_lm creates output in its own directory.  I can fix that later, after I learn perl.
-src=$tools_dir/$sentence_list.arpabo
-dst=$tools_dir/$model_name.lm
+sentence_list=`basename $sentence_list_path`
+
+sentence_list_dir=`dirname $sentence_list_path`
+
+# rename output
+src=$sentence_list_path.arpabo
+dst=$sentence_list_dir/$model_name.lm
 mv $src $dst
 
 # convert lm to binary (bin) format (command was too complex for python to handle)
-filename=$tools_dir/$model_name.lm
+filename=$sentence_list_dir/$model_name.lm
 sphinx_lm_convert -i $dst -o $dst.bin &> /dev/null
-
-# move into working directory
-mv $tools_dir/$model_name.lm $save_directory/$model_name.lm
 
