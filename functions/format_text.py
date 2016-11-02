@@ -10,11 +10,11 @@
 # 
 # USAGE
 # 
-#       python3 format_text.py /path/to/sentence-file.txt model-name target-directory
+#       python3 format_text.py /path/to/sentence-file.txt model-name target-directory iterations
 # 
 # EXAMPLE
 # 
-#       python3 /opt/vmc/functions/format_text.py ~/sentence-file.txt model-name target-directory
+#       python3 /opt/vmc/functions/format_text.py ~/sentence-file.txt model-name target-directory 2
 #
 # DEPENDENCIES
 # 
@@ -31,6 +31,8 @@ sentence_file = sys.argv[1] # os.path.basename() to get just the filename
 model_name = sys.argv[2]
 
 target_directory = sys.argv[3].rstrip(os.sep)
+
+iterations = int(sys.argv[4])
 
 pronunciation_dictionary = '/opt/vmc/tools/cmudict-en-us.dict'
 
@@ -59,32 +61,34 @@ def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, bar
 
 # LOGIC ===========================================================================================
 
+
+# FILEID AND TRANSCRIPTION FILES ------------------------------------------------------------------
+
 sentences_text = ""
 
 j=0
 
 with open(sentence_file) as f:
 
-    for line in f:
+    for line in f*iterations:
 
         sentences_text = sentences_text+' '+line
 
         j+=1
         afno = str('%04d'%j)
 
-        # get rid of punctuation
+        # create transcription file
         exclude = set(string.punctuation)
         sentence = ''.join(ch for ch in line if ch not in exclude)
 
         nice_text = sentence.lower().rstrip()
         formatted_text = "</s> " +  nice_text +  " </s> (" + model_name + "_" + afno + ")\n"
-        # formatted_text = nice_text+"\n"
         formatted_filename = target_directory + "/" +model_name + '.transcription'             
         hs = open(formatted_filename,"a")
         hs.write(formatted_text)
         hs.close() 
-
-        #fileid
+        
+        #create fileid file
         formatted_text = model_name + "_" + afno + "\n"
         formatted_filename = target_directory + "/" +model_name + '.fileids'
         hs = open(formatted_filename,"a")
@@ -93,7 +97,7 @@ with open(sentence_file) as f:
 
         sentences_text = sentences_text+' '+line
 
-# def sentence_parsing(sentences_text, model_name, sentence_file, pronunciation_dictionary):
+# CREATE PRONUNCIATION DICTIONARY -----------------------------------------------------------------
 
 # create unique, sorted word list from sentence list
 words = []
@@ -151,9 +155,18 @@ for word in uwords:
         missing_words.append(word)
 
     i +=1
+    
     printProgress (i, l, prefix = 'Progress:', suffix = 'Complete', decimals = 2, barLength = 20)
 
-# save missing words list to file
+# save pronunciation dictionary to file
+print("Saving pronunciation dictionary to file...")
+pdictfilename = str(target_directory+'/'+model_name+'.dic')
+pdictfile = open(pdictfilename, 'w')
+for word_entry in pdict:
+    pdictfile.write("%s\n" % word_entry)
+
+# RECORD LIST OF MISSING WORDS --------------------------------------------------------------------
+
 if missing_words:
     missing_words_filename = str(target_directory+'/'+model_name+'.missing')
     print("\nWord(s) missing from pronunciation dictionary. See ")
@@ -162,13 +175,7 @@ if missing_words:
     for word in missing_words:
         mwordsfile.write("%s\n" % word)
             
-# save pronunciation dictionary to file
-print("Saving pronunciation dictionary to file...")
-pdictfilename = str(target_directory+'/'+model_name+'.dic')
-pdictfile = open(pdictfilename, 'w')
-for word_entry in pdict:
-    pdictfile.write("%s\n" % word_entry)
+# DONE --------------------------------------------------------------------------------------------
 
-# final instructions
 print("Data files created.")
 
