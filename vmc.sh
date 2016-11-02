@@ -47,6 +47,7 @@ elif [[ $2 = '-import' ]]; then
     audio_file_directory=$3
     sentence_file=$4
     output_folder=$5
+    iterations=1
 
 else
 
@@ -95,7 +96,7 @@ echo
 echo "Producing sentence file derivatives..."
 
 # get derivatives of sentence file
-python3 $fdir/format_text.py $sentence_file $model_name $output_folder
+python3 $fdir/format_text.py $sentence_file $model_name $output_folder $iterations
 
 echo 
 echo "Producing audio file derivatives..."
