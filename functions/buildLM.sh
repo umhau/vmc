@@ -34,10 +34,10 @@ sentence_list_dir=`dirname $sentence_list_path`
 
 # rename output
 src=$sentence_list_path.arpabo
-dst=$sentence_list_dir/$model_name.lm
+dst=$save_directory/$model_name.lm
 mv $src $dst
 
 # convert lm to binary (bin) format (command was too complex for python to handle)
-filename=$sentence_list_dir/$model_name.lm
-sphinx_lm_convert -i $dst -o $dst.bin &> /dev/null
+filename=$save_directory/$model_name.lm
+sphinx_lm_convert -i $filename -o $filename.bin &> /dev/null
 
