@@ -67,35 +67,41 @@ def printProgress (iteration, total, prefix = '', suffix = '', decimals = 1, bar
 sentences_text = ""
 
 j=0
+lines = []
 
 with open(sentence_file) as f:
 
-    for line in f*iterations:
+    for line in f:
+        lines.append(line)
 
-        sentences_text = sentences_text+' '+line
+# this was separated out so I can easily multiply the lines by the iterations...doesn't work to do 
+# f*iterations (in above loop).
+for line in lines*iterations:
 
-        j+=1
-        afno = str('%04d'%j)
+    sentences_text = sentences_text+' '+line
 
-        # create transcription file
-        exclude = set(string.punctuation)
-        sentence = ''.join(ch for ch in line if ch not in exclude)
+    j+=1
+    afno = str('%04d'%j)
 
-        nice_text = sentence.lower().rstrip()
-        formatted_text = "</s> " +  nice_text +  " </s> (" + model_name + "_" + afno + ")\n"
-        formatted_filename = target_directory + "/" +model_name + '.transcription'             
-        hs = open(formatted_filename,"a")
-        hs.write(formatted_text)
-        hs.close() 
-        
-        #create fileid file
-        formatted_text = model_name + "_" + afno + "\n"
-        formatted_filename = target_directory + "/" +model_name + '.fileids'
-        hs = open(formatted_filename,"a")
-        hs.write(formatted_text)
-        hs.close() 
+    # create transcription file
+    exclude = set(string.punctuation)
+    sentence = ''.join(ch for ch in line if ch not in exclude)
 
-        sentences_text = sentences_text+' '+line
+    nice_text = sentence.lower().rstrip()
+    formatted_text = "</s> " +  nice_text +  " </s> (" + model_name + "_" + afno + ")\n"
+    formatted_filename = target_directory + "/" +model_name + '.transcription'             
+    hs = open(formatted_filename,"a")
+    hs.write(formatted_text)
+    hs.close() 
+    
+    #create fileid file
+    formatted_text = model_name + "_" + afno + "\n"
+    formatted_filename = target_directory + "/" +model_name + '.fileids'
+    hs = open(formatted_filename,"a")
+    hs.write(formatted_text)
+    hs.close() 
+
+    sentences_text = sentences_text+' '+line # why twice? I have no memory of why I did this.
 
 # CREATE PRONUNCIATION DICTIONARY -----------------------------------------------------------------
 
