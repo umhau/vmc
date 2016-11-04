@@ -48,11 +48,10 @@ export LD_LIBRARY_PATH=/usr/local/lib
 if [[ $2 = '-record' ]]; then 
 
     vm_training_file=$3
-    lm_training_file=$4
-    output_folder=$5
+    output_folder=$4
 
     if [[ -n $5 ]]; then
-        iterations=$6
+        iterations=$5
     else
         iterations=1
     fi
@@ -61,8 +60,7 @@ elif [[ $2 = '-import' ]]; then
 
     audio_file_directory=$3
     sentence_file=$4
-    lm_training_file=$5
-    output_folder=$6
+    output_folder=$5
     iterations=1
 
 else
@@ -73,7 +71,6 @@ else
     echo -e "\tmodel-name\t\t(used to name most of the internal files)"
     echo -e "\t[ -record OR -import audio/file/directory ]"
     echo -e "\tvm-training-file\t(sentences for the user to record)"
-    echo -e "\tlm-training-file\t(sentences to train the language model)"
     echo -e "\toutput-folder\t\t(this is a complete file path)"
     echo -e "\t[reps]\t\t\t(number of voice recordings per sentence)"
     echo
