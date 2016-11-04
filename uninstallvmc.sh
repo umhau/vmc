@@ -7,10 +7,10 @@
 
 # DELETE EVERYTHING ===============================================================================
 
-sudo rm -r /opt/vmc
+sudo rm -rf /opt/vmc
 
-sudo rm /usr/local/bin/vmc.sh
+sudo rm -f /usr/local/bin/vmc.sh
 
-sudo rm /usr/local/bin/lmt.sh
+sudo rm -f /usr/local/bin/lmt.sh
 
 echo "vmc removed."

@@ -26,8 +26,14 @@ fdir=/opt/vmc/functions
 
 if [ -d /opt/vmc/ ]; then
 
-    echo "A version of vmc is already installed.  To uninstall, run uninstallvmc.sh"
-    exit 1
+    echo -n "Removing vmc..."
+
+    bash $scriptpath/uninstallvmc.sh 1>/dev/null
+    
+    echo "done."
+
+    # echo "A version of vmc is already installed.  To uninstall, run uninstallvmc.sh"
+    # exit 1
 
 fi
 
