@@ -48,11 +48,13 @@ sudo mv  $tdir/cmusphinx-en-us-ptm-5.2 $tdir/en-us
 # move functions
 sudo cp -r $scriptpath/functions/* $fdir/
 
-# move vmc into user's path 
+# move vmc into user's path & set as executable
 sudo cp $scriptpath/vmc.sh /usr/local/bin/vmc.sh
-
-# set vmc.sh as executable
 sudo chmod +x /usr/local/bin/vmc.sh
+
+# move lmt into user's path  & set as executable
+sudo cp $scriptpath/lmt.sh /usr/local/bin/lmt.sh
+sudo chmod +x /usr/local/bin/lmt.sh
 
 # GET SPHINXTRAIN BINARIES ========================================================================
 

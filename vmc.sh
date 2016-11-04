@@ -6,13 +6,18 @@
 #       a specified location.  Indicate whether to record (-record) or import (-import) the 
 #       audio files.
 # 
+#       The statistical language model is now produced separately, run 
+#           
+#           $ lmt.sh
+#
+#       to see what the parameters are.
+#
 # USAGE
 # 
 #       vmc.sh 
 #           model-name                  (used to name most of the internal files)
 #           [ -record OR -import audio/file/directory ]
 #           vm-training-file            (sentences the user should record for training purposes)
-#           lm-training-file            (for use by the statistical language model creator)
 #           output-folder               (this is a complete file path)
 #           [reps]                      (how many times to get a recording of each sentence)
 #
@@ -73,13 +78,6 @@ else
     echo -e "\t[reps]\t\t\t(number of voice recordings per sentence)"
     echo
 
-#       vmc.sh 
-#           model-name 
-#           [ -record OR -import audio/file/directory ] 
-#           sentence-file-for-voice-recordings
-#           lm-training-file 
-#           output-folder 
-#           [reps]
     exit 1
 
 fi
@@ -135,14 +133,10 @@ bash $fdir/acousticfiles.sh $audio_folder $output_folder/$model_name.fileids
 # CREATE MODELS -----------------------------------------------------------------------------------
 
 echo
-echo "Creating models..."
-
-# build language model
-bash $fdir/buildLM.sh $lm_training_file $model_name $output_folder
+echo "Creating voice model..."
 
 # build voice model
 bash $fdir/voicemodel.sh $model_name $output_folder $audio_folder $output_folder
-
 
 echo 
 echo "Process complete."
