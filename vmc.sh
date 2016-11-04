@@ -8,7 +8,13 @@
 # 
 # USAGE
 # 
-#       vmc.sh model-name [ -record OR -import audio/file/directory ] sentence-file output-folder [reps]
+#       vmc.sh 
+#           model-name                  (used to name most of the internal files)
+#           [ -record OR -import audio/file/directory ]
+#           vm-training-file            (sentences the user should record for training purposes)
+#           lm-training-file            (for use by the statistical language model creator)
+#           output-folder               (this is a complete file path)
+#           [reps]                      (how many times to get a recording of each sentence)
 #
 # DEPENDENCIES
 # 
@@ -23,6 +29,9 @@
 #       parameters and the script will not fail if it is not specified.
 # 
 #       Having been installed to /usr/local/bin, this command can be called from anywhere.
+#
+#       After installation, a keyphrase list should be added in order to use the voice model for 
+#       keyword spotting.
 # 
 
 # VARIABLES =======================================================================================
@@ -33,11 +42,12 @@ export LD_LIBRARY_PATH=/usr/local/lib
 
 if [[ $2 = '-record' ]]; then 
 
-    sentence_file=$3
-    output_folder=$4
+    vm_training_file=$3
+    lm_training_file=$4
+    output_folder=$5
 
     if [[ -n $5 ]]; then
-        iterations=$5
+        iterations=$6
     else
         iterations=1
     fi
@@ -46,12 +56,30 @@ elif [[ $2 = '-import' ]]; then
 
     audio_file_directory=$3
     sentence_file=$4
-    output_folder=$5
+    lm_training_file=$5
+    output_folder=$6
     iterations=1
 
 else
+    
+    echo
+    echo -e "USAGE: \tvmc.sh "
+    echo 
+    echo -e "\tmodel-name\t\t(used to name most of the internal files)"
+    echo -e "\t[ -record OR -import audio/file/directory ]"
+    echo -e "\tvm-training-file\t(sentences for the user to record)"
+    echo -e "\tlm-training-file\t(sentences to train the language model)"
+    echo -e "\toutput-folder\t\t(this is a complete file path)"
+    echo -e "\t[reps]\t\t\t(number of voice recordings per sentence)"
+    echo
 
-    echo "USAGE: vmc.sh model-name [ -record OR -import audio/file/dir ] sentence-file output-folder [reps]"
+#       vmc.sh 
+#           model-name 
+#           [ -record OR -import audio/file/directory ] 
+#           sentence-file-for-voice-recordings
+#           lm-training-file 
+#           output-folder 
+#           [reps]
     exit 1
 
 fi
@@ -77,7 +105,7 @@ if [[ $2 = '-record' ]]; then
 
     mkdir -p $audio_folder
 
-    python3 $fdir/getaudio.py $sentence_file $audio_folder $iterations $model_name
+    python3 $fdir/getaudio.py $vm_training_file $audio_folder $iterations $model_name
 
 elif [[ $2 = '-import' ]]; then
 
@@ -96,7 +124,7 @@ echo
 echo "Producing sentence file derivatives..."
 
 # get derivatives of sentence file
-python3 $fdir/format_text.py $sentence_file $model_name $output_folder $iterations
+python3 $fdir/format_text.py $vm_training_file $model_name $output_folder $iterations
 
 echo 
 echo "Producing audio file derivatives..."
@@ -110,7 +138,7 @@ echo
 echo "Creating models..."
 
 # build language model
-bash $fdir/buildLM.sh $sentence_file $model_name $output_folder
+bash $fdir/buildLM.sh $lm_training_file $model_name $output_folder
 
 # build voice model
 bash $fdir/voicemodel.sh $model_name $output_folder $audio_folder $output_folder
