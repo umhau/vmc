@@ -20,7 +20,7 @@ if [[ -z $1 ]]; then
     echo
     echo -e "USAGE: \tlmt.sh "
     echo 
-    echo -e "\tlm-training-file\t\t(used to name most of the internal files)"
+    echo -e "\tlm-training-file\t(used to name most of the internal files)"
     echo -e "\tsentence-list\t\t(sentences for the user to record)"
     echo -e "\toutput-location\t\t(location to save the LM into)"
     echo
