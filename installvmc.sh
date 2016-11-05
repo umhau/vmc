@@ -39,6 +39,9 @@ fi
 
 # MOVE VMC FILES ==================================================================================
 
+# get sudo 
+sudo ls 1>/dev/null
+
 echo -n "Installing vmc..."
 
 # create vmc directories

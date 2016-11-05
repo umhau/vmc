@@ -20,27 +20,27 @@ if [[ -z $1 ]]; then
     echo
     echo -e "USAGE: \tlmt.sh "
     echo 
-    echo -e "\tlm-training-file\t(used to name most of the internal files)"
-    echo -e "\tsentence-list\t\t(sentences for the user to record)"
-    echo -e "\toutput-location\t\t(location to save the LM into)"
+    echo -e "\tsentence_list_file\t(input file with sample sentences)"
+    echo -e "\toutput_lm_file_name\t(desired base name of output lm file)"
+    echo -e "\tsave_directory\t\t(location to save the ouput file into)"
     echo
 
     exit 1
 
 fi
 
-lm_training_file=$1
+sentence_list_file=$1
 
-lm_file_name=$2
+output_lm_file_name=$2
 
-output_location=$3
+save_directory=$3
 
 fdir=/opt/vmc/functions
 
 # COMMANDS ========================================================================================
 
 # build language model
-bash $fdir/buildLM.sh $lm_training_file $lm_file_name $output_location
+bash $fdir/buildLM.sh $sentence_list_file $output_lm_file_name $save_directory
 
 echo
 echo "Done."
