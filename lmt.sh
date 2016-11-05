@@ -42,6 +42,4 @@ fdir=/opt/vmc/functions
 # build language model
 bash $fdir/buildLM.sh $sentence_list_file $output_lm_file_name $save_directory
 
-echo
-echo "Done."
-echo
+
