@@ -64,6 +64,11 @@ echo "Installing perl..."
 sudo apt-get install perl -y
 echo
 
+# needed for compiling 
+echo "Installing bison..."
+sudo apt-get install bison -y
+echo
+
 # python development version: needed for sphinxbase
 echo "Installing python-dev..."
 sudo apt-get install python-dev -y
@@ -101,8 +106,8 @@ if [ ! -d $installation_directory/sphinxbase/ ]; then
     cd $installation_directory
     git clone https://github.com/cmusphinx/sphinxbase.git
     cd ./sphinxbase
-    ./autogen.sh
-    ./configure --with-sphinxbase-build
+    ./autogen.sh --with-sphinxbase-build
+    ./configure 
     make -j $CORES
     make -j $CORES check
     sudo make -j $CORES install
