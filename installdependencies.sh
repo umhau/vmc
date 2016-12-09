@@ -102,7 +102,7 @@ if [ ! -d $installation_directory/sphinxbase/ ]; then
     git clone https://github.com/cmusphinx/sphinxbase.git
     cd ./sphinxbase
     ./autogen.sh
-    ./configure
+    ./configure --with-sphinxbase-build
     make -j $CORES
     make -j $CORES check
     sudo make -j $CORES install
