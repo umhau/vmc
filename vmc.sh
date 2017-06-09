@@ -2,9 +2,9 @@
 # 
 # DESCRIPTION
 # 
-#       Given a sentence file and (optionally) prerecorded audio files, produce a voice model in 
-#       a specified location.  Indicate whether to record (-record) or import (-import) the 
-#       audio files.
+#       Given a sentence file and (optionally) prerecorded audio files, produce
+#       a voice model in a specified location.  Indicate whether to record 
+#       (-record) or import (-import) the audio files.
 # 
 #       The statistical language model is now produced separately, run 
 #           
@@ -15,13 +15,16 @@
 # USAGE
 # 
 #       vmc.sh 
-#           model-name                  (used to name most of the internal files)
+#           model-name                  used to name most of the internal files
 #           [ -record OR -import audio/file/directory ]
-#           vm-training-file            (sentences the user should record for training purposes)
-#           output-folder               (this is a complete file path)
-#           [reps]                      (how many times to get a recording of each sentence)
-#           acoustic-model              Location of acoustic model to start with. (this is a
-#                                       complete file path, not including 'en-us'.) Optional.
+#           vm-training-file            sentences the user should record for 
+#                                       training purposes
+#           output-folder               this is a complete file path
+#           [reps]                      how many times to get a recording of 
+#                                       each sentence
+#           acoustic-model              Location of acoustic model to start 
+#                                       with. (this is a complete file path, 
+#                                       not including 'en-us'.) Optional.
 # 
 # DEPENDENCIES
 # 
@@ -29,23 +32,26 @@
 # 
 # NOTES
 # 
-#       The output folder is intended to be the location of the voice model, once completed.
+#       The output folder is intended to be the location of the voice model, 
+#       once completed.
 # 
-#       The [reps] variable at the end specifies how many times to request a recording of each 
-#       entry in the sentence file.  It is optional, as it is placed at the end of the list of 
-#       parameters and the script will not fail if it is not specified.
+#       The [reps] variable at the end specifies how many times to request a 
+#       recording of each entry in the sentence file.  It is optional, as it is
+#       placed at the end of the list of parameters and the script will not 
+#       fail if it is not specified.
 # 
-#       Having been installed to /usr/local/bin, this command can be called from anywhere.
+#       Having been installed to /usr/local/bin, this command can be called 
+#       from anywhere.
 #
-#       After installation, a keyphrase list should be added in order to use the voice model for 
-#       keyword spotting.
+#       After installation, a keyphrase list should be added in order to use 
+#       the voice model for keyword spotting.
 # 
 
-# VARIABLES =======================================================================================
+# VARIABLES ===================================================================
 
 export LD_LIBRARY_PATH=/usr/local/lib
-        # set path to include sphinx library location 
-        # https://jrmeyer.github.io/installation/2016/01/09/Installing-CMU-Sphinx-on-Ubuntu.html
+# set path to include sphinx library location 
+# jrmeyer.github.io/installation/2016/01/09/Installing-CMU-Sphinx-on-Ubuntu.html
 
 if [[ $2 = '-record' ]]; then 
 
@@ -90,9 +96,9 @@ tdir=/opt/vmc/tools
 fdir=/opt/vmc/functions
 
 
-# COMMANDS ========================================================================================
+# COMMANDS ====================================================================
 
-# OBTAIN REQUISITE FILES --------------------------------------------------------------------------
+# OBTAIN REQUISITE FILES ------------------------------------------------------
 
 echo
 echo "Collecting required files..."
@@ -124,7 +130,7 @@ else
     cp -r $tdir/en-us $output_folder
 fi
 
-# PRODUCE DERIVATIVE FILES ------------------------------------------------------------------------
+# PRODUCE DERIVATIVE FILES ----------------------------------------------------
 
 echo
 echo "Producing sentence file derivatives..."
@@ -138,7 +144,7 @@ echo "Producing audio file derivatives..."
 # get derivatives of audio files
 bash $fdir/acousticfiles.sh $audio_folder $output_folder/$model_name.fileids
 
-# CREATE MODELS -----------------------------------------------------------------------------------
+# CREATE MODELS ---------------------------------------------------------------
 
 echo
 echo "Creating voice model..."
