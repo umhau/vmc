@@ -153,4 +153,4 @@ echo "Creating voice model..."
 bash $fdir/voicemodel.sh $model_name $output_folder $audio_folder $output_folder
 
 echo 
-echo "Process complete."
+echo "Process complete.  New acoustic voice model saved into $output_folder"
