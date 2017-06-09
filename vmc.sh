@@ -20,7 +20,9 @@
 #           vm-training-file            (sentences the user should record for training purposes)
 #           output-folder               (this is a complete file path)
 #           [reps]                      (how many times to get a recording of each sentence)
-#
+#           acoustic-model              Location of acoustic model to start with. (this is a
+#                                       complete file path, not including 'en-us'.) Optional.
+# 
 # DEPENDENCIES
 # 
 #       CMU Sphinx, Python 3 (& 2.7), Perl, and other misc. packages.
@@ -102,6 +104,8 @@ if [[ $2 = '-record' ]]; then
 
     python3 $fdir/getaudio.py $vm_training_file $audio_folder $iterations $model_name
 
+    echo "Recorded audio files saved into $audio_folder. They can be reused."
+
 elif [[ $2 = '-import' ]]; then
 
     mkdir -p $audio_folder
@@ -111,7 +115,14 @@ elif [[ $2 = '-import' ]]; then
 fi
 
 # copy default acoustic model
-cp -r $tdir/en-us $output_folder
+if [ -n "$6" ]; then
+    echo "Pulling base acoustic model from $6"
+    read -p "Press enter to continue, or CTRL-C to exit"
+    cp -r $installation_directory/en-us $output_folder
+else
+    echo "Using default base acoustic model."
+    cp -r $tdir/en-us $output_folder
+fi
 
 # PRODUCE DERIVATIVE FILES ------------------------------------------------------------------------
 
