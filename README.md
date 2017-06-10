@@ -10,6 +10,12 @@ Note this tool has only been tested with Linux Mint 17.3 & 18.
 
 **Please see the LICENSE file for terms of use.**
 
+TODO
+----
+
+Make sure that if I work from prerecorded audio files, I can add to a set of 
+files already recorded.  
+
 Linux/Unix installation
 -------------------------------------------------------------------------------
 
