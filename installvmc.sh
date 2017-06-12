@@ -6,47 +6,36 @@
 # 
 # NOTES
 # 
-#       Copies the vmc packages into /opt/vmc, and puts the vmc script into /usr/local/bin.  Once
-#       there, vmc can be called (with its requisite options) from anywhere with just vmc.sh.
+#       Copies the vmc packages into /opt/vmc, and puts the vmc script into
+#       /usr/local/bin.  Once there, vmc can be called (with its requisite 
+#       options) from anywhere with just vmc.sh.
 # 
 
 
-# SET VARIABLES ===================================================================================
+# SET VARIABLES ===============================================================
 
- 
-script=$(readlink -f "$0") # Absolute path to this script, e.g. /home/user/bin/foo.sh
-scriptpath=$(dirname "$script") # Absolute path this script is in, thus /home/user/bin
-        # http://stackoverflow.com/questions/242538/unix-shell-script-find-out-which-directory-the-script-file-resides
+# Absolute path to this script & containing folder.  stackoverflow.com/q/242538
+script=$(readlink -f "$0"); scriptpath=$(dirname "$script") 
 
-tdir=/opt/vmc/tools
+tdir=/opt/vmc/tools; fdir=/opt/vmc/functions
 
-fdir=/opt/vmc/functions
-
-# CHECK FOR PREVIOUS INSTALLATION =================================================================
+# CHECK FOR PREVIOUS INSTALLATION =============================================
 
 if [ -d /opt/vmc/ ]; then
 
-    echo -n "Removing vmc..."
-
-    bash $scriptpath/uninstallvmc.sh 1>/dev/null
+    bash $scriptpath/uninstallvmc.sh 1>/dev/null; echo -n "Removed vmc"; 
     
-    echo "done."
-
-    # echo "A version of vmc is already installed.  To uninstall, run uninstallvmc.sh"
-    # exit 1
+    # echo "vmc is already installed.  To remove, run uninstallvmc.sh"; exit 1
 
 fi
 
-# MOVE VMC FILES ==================================================================================
+# MOVE VMC FILES ==============================================================
 
 # get sudo 
-sudo ls 1>/dev/null
-
-echo -n "Installing vmc..."
+sudo ls 1>/dev/null; echo -n "Installing vmc..."
 
 # create vmc directories
-sudo mkdir -p $tdir
-sudo mkdir -p $fdir
+sudo mkdir -p $tdir; sudo mkdir -p $fdir
 
 # move tools
 sudo cp -r $scriptpath/tools/* $tdir/

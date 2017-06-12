@@ -55,21 +55,13 @@ export LD_LIBRARY_PATH=/usr/local/lib
 
 if [[ $2 = '-record' ]]; then 
 
-    vm_training_file=$3
-    output_folder=$4
+    vm_training_file=$3; output_folder=$4
 
-    if [[ -n $5 ]]; then
-        iterations=$5
-    else
-        iterations=1
-    fi
+    if [[ -n $5 ]]; then iterations=$5; else iterations=1; fi
 
 elif [[ $2 = '-import' ]]; then
 
-    audio_file_directory=$3
-    sentence_file=$4
-    output_folder=$5
-    iterations=1
+    audio_file_directory=$3; sentence_file=$4; output_folder=$5; iterations=1
 
 else
     
@@ -91,9 +83,7 @@ model_name=$1
 
 audio_folder=$output_folder/audio
 
-tdir=/opt/vmc/tools 
-
-fdir=/opt/vmc/functions
+tdir=/opt/vmc/tools; fdir=/opt/vmc/functions
 
 
 # COMMANDS ====================================================================

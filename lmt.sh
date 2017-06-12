@@ -4,16 +4,15 @@
 # 
 #       Given a list of sentences, create a statistical language model.  
 #
-# USAGE
-# 
-#       lmt.sh lm-training-file lm-file-name output-location
+# USAGE: lmt.sh lm-training-file lm-file-name output-location
 #
-# DEPENDENCIES
-# 
-#       CMU Sphinx, Perl, and other misc. packages.
-# 
+# VARIABLES ===================================================================
 
-# VARIABLES =======================================================================================
+sentence_list_file=$1; output_lm_file_name=$2; save_directory=$3; 
+
+fdir=/opt/vmc/functions
+
+# CHECK IF HELP NEEDED ========================================================
 
 if [[ -z $1 ]]; then 
    
@@ -29,15 +28,7 @@ if [[ -z $1 ]]; then
 
 fi
 
-sentence_list_file=$1
-
-output_lm_file_name=$2
-
-save_directory=$3
-
-fdir=/opt/vmc/functions
-
-# COMMANDS ========================================================================================
+# COMMANDS ====================================================================
 
 # build language model
 bash $fdir/buildLM.sh $sentence_list_file $output_lm_file_name $save_directory

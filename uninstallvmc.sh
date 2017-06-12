@@ -1,11 +1,9 @@
 #!/bin/bash
 # 
-# USAGE
-# 
-#       bash uninstallvmc.sh
+# USAGE: bash uninstallvmc.sh
 # 
 
-# DELETE EVERYTHING ===============================================================================
+# DELETE EVERYTHING ===========================================================
 
 sudo rm -rf /opt/vmc
 
