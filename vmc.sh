@@ -96,17 +96,17 @@ echo "Collecting required files..."
 # get audio files and put them where they go
 if [[ $2 = '-record' ]]; then 
 
-    mkdir -p $audio_folder
+    sudo mkdir -p $audio_folder
 
-    python3 $fdir/getaudio.py $vm_training_file $audio_folder $iterations $model_name
+    sudo python3 $fdir/getaudio.py $vm_training_file $audio_folder $iterations $model_name
 
     echo "Recorded audio files saved into $audio_folder. They can be reused."
 
 elif [[ $2 = '-import' ]]; then
 
-    mkdir -p $audio_folder
+    sudo mkdir -p $audio_folder
 
-    cp -a $audio_file_directory/*.wav $audio_folder/
+    sudo cp -a $audio_file_directory/*.wav $audio_folder/
 
 fi
 
@@ -114,10 +114,10 @@ fi
 if [ -n "$6" ]; then
     echo "Pulling base acoustic model from $6"
     read -p "Press enter to continue, or CTRL-C to exit"
-    cp -r $installation_directory/en-us $output_folder
+    sudo cp -r $installation_directory/en-us $output_folder
 else
     echo "Using default base acoustic model."
-    cp -r $tdir/en-us $output_folder
+    sudo cp -r $tdir/en-us $output_folder
 fi
 
 # PRODUCE DERIVATIVE FILES ----------------------------------------------------
@@ -126,13 +126,13 @@ echo
 echo "Producing sentence file derivatives..."
 
 # get derivatives of sentence file
-python3 $fdir/format_text.py $vm_training_file $model_name $output_folder $iterations
+sudo python3 $fdir/format_text.py $vm_training_file $model_name $output_folder $iterations
 
 echo 
 echo "Producing audio file derivatives..."
 
 # get derivatives of audio files
-bash $fdir/acousticfiles.sh $audio_folder $output_folder/$model_name.fileids
+sudo bash $fdir/acousticfiles.sh $audio_folder $output_folder/$model_name.fileids
 
 # CREATE MODELS ---------------------------------------------------------------
 
@@ -140,7 +140,7 @@ echo
 echo "Creating voice model..."
 
 # build voice model
-bash $fdir/voicemodel.sh $model_name $output_folder $audio_folder $output_folder
+sudo bash $fdir/voicemodel.sh $model_name $output_folder $audio_folder $output_folder
 
 echo 
 echo "Process complete.  New acoustic voice model saved into $output_folder"
