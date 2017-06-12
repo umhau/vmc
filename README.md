@@ -40,11 +40,11 @@ Usage instructions
 
 Example usage, recording new audio with 5 repetitions of each sentence:
 
-    $ vmc.sh new_model -record ~/Downloads/sentences.txt ~/projects/new_model 5
+    vmc.sh new_model -record ~/Downloads/sentences.txt ~/projects/new_model 5
 
 Example usage, importing previously created audio files:
 
-    $ vmc.sh ccmodel -import audio_files cc.list ~/tools/ccmodel
+    vmc.sh ccmodel -import audio_files cc.list ~/tools/ccmodel
 
 Note that the model name and the name of the model folder should be the same. 
 Also note the repetitions specification is optional; it defaults to 1.
