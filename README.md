@@ -27,11 +27,11 @@ an AMD64 computer running Mint 18 would look like this:
 
 Commands:
 
-    $ cd ~/Downloads
-    $ git clone https://github.com/umhau/vmc.git
-    $ cd ./vmc
-    $ sudo bash ./installdependencies.sh ~/tools
-    $ sudo bash ./installvmc.sh
+    cd ~/Downloads
+    git clone https://github.com/umhau/vmc.git
+    cd ./vmc
+    sudo bash ./installdependencies.sh ~/tools
+    sudo bash ./installvmc.sh
 
 See use examples in the next section.
 
