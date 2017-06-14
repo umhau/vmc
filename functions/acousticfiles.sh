@@ -1,36 +1,39 @@
 #!/bin/bash
 # 
-# DESCRIPTION
+# DESCRIPTION -----------------------------------------------------------------
 # 
-#       Produce acoustic feature files from user-supplied voice recordings. These are stored with 
-#       the associated audio files, and named similarly with an .mfc extension.
-# 
-# USAGE
-# 
-#       bash acousticfiles.sh /audio/folder/path /path/to/model-name.fileids
-# 
-# EXAMPLE
-# 
-#       bash /opt/vmc/functions/acousticfiles.sh ~/audio ~/audio/newmodel.fileids
+#       Produce acoustic feature files from user-supplied voice recordings. 
+#       These are stored with the associated audio files, and named similarly 
+#       with an .mfc extension.
 #
-# DEPENDENCIES
+#       Do not include trailing forward slashes in the folder paths.
 # 
-#       CMU Sphinx
-# 
+# USAGE | EXAMPLE -------------------------------------------------------------
+#   bash acousticfiles.sh /path/to/audio/folder \
+#                         /path/to/acoustic/model \
+#                         /path/to/model.fileids
+#
+# VARIABLE DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-# VARIABLES DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+audio_folder_path="$1"          # e.g. ~/.psyche/audio/training
+acoustic_model_location="$2"    # e.g. /usr/bin/local/python/pocketsphinx/en-us
+fileids_location="$3"           # e.g. ~/.psyche/audio/training/model.fileids
 
-folderpath=${1%/}
-
-fid_filepath=$2 # filename format: model-name.fileids
-
-
-# FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # generate some acoustic feature files
 echo "Generating acoustic feature files..."
-cd $folderpath # sphinx_fe likes to have a consistent working directory
-sphinx_fe -argfile /opt/vmc/tools/en-us/feat.params -samprate 16000 -c $fid_filepath -di . -do . -ei wav -eo mfc -mswav yes &> /dev/null
+cd $audio_folder_path  # sphinx_fe likes to have a consistent working directory
+sphinx_fe -argfile \
+          "$acoustic_model_location/feat.params" \
+          -samprate 16000 \
+          -c $fileids_location \
+          -di . \
+          -do . \
+          -ei wav \
+          -eo mfc \
+          -mswav yes \
+          &> /dev/null
 
 
 
