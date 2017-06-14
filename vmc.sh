@@ -16,15 +16,26 @@
 # 
 #       vmc.sh 
 #           model-name                  used to name most of the internal files
+#
 #           [ -record OR -import audio/file/directory ]
+#
 #           vm-training-file            sentences the user should record for 
 #                                       training purposes
-#           output-folder               this is a complete file path
+#
+#           output-folder               this is a complete file path. If 
+#                                       adapting in-place, this is the same as 
+#                                       the acoustic-model (input) folder.
+#
 #           [reps]                      how many times to get a recording of 
 #                                       each sentence
+#
 #           acoustic-model              Location of acoustic model to start 
 #                                       with. (this is a complete file path, 
 #                                       not including 'en-us'.) Optional.
+#
+#           -adapt_in_place             Only relevant if an acoustic model has
+#                                       been given to start with.  Adapt, and 
+#                                       do not copy, the given acoustic model.
 # 
 # DEPENDENCIES
 # 
@@ -110,7 +121,10 @@ elif [[ $2 = '-import' ]]; then
 
 fi
 
-# copy default acoustic model
+# copy default acoustic model - or not.
+if [[ $2 = '-adapt_in_place' ]]; then 
+    
+
 if [ -n "$6" ]; then
     echo "Pulling base acoustic model from $6"
     read -p "Press enter to continue, or CTRL-C to exit"
