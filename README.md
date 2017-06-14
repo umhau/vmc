@@ -40,11 +40,11 @@ Usage instructions
 
 Example usage, recording new audio with 5 repetitions of each sentence:
 
-    vmc.sh new_model -record ~/Downloads/sentences.txt ~/projects/new_model 5
+    vmc new_model -record ~/Downloads/sentences.txt ~/projects/new_model 5
 
 Example usage, importing previously created audio files:
 
-    vmc.sh ccmodel -import audio_files cc.list ~/tools/ccmodel
+    vmc ccmodel -import audio_files cc.list ~/tools/ccmodel
 
 Note that the model name and the name of the model folder should be the same. 
 Also note the repetitions specification is optional; it defaults to 1.
@@ -52,7 +52,7 @@ Also note the repetitions specification is optional; it defaults to 1.
 The model folder will contain all necessary files to run PocketSphinx with the 
 newly created custom voice model.
 
-Note that dependencies are not checked when running vmc.sh.  To check 
+Note that dependencies are not checked when running vmc.  To check 
 dependencies, see the section above. 
 
 Background

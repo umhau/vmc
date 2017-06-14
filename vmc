@@ -8,13 +8,13 @@
 # 
 #       The statistical language model is now produced separately, run 
 #           
-#           $ lmt.sh
+#           $ lmt
 #
 #       to see what the parameters are.
 #
 # USAGE
 # 
-#       vmc.sh 
+#       vmc 
 #           model-name                  used to name most of the internal files
 #
 #           [ -record OR -import audio/file/directory ]
@@ -77,7 +77,7 @@ elif [[ $2 = '-import' ]]; then
 else
     
     echo
-    echo -e "USAGE: \tvmc.sh "
+    echo -e "USAGE: \tvmc "
     echo 
     echo -e "\tmodel-name\t\t(used to name most of the internal files)"
     echo -e "\t[ -record OR -import audio/file/directory ]"
