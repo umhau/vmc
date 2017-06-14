@@ -10,7 +10,7 @@
 
 sentence_list_file=$1; output_lm_file_name=$2; save_directory=$3; 
 
-fdir=/opt/vmc/functions
+fdir=/opt/vmc/lib
 
 # CHECK IF HELP NEEDED ========================================================
 

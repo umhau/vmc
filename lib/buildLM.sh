@@ -3,7 +3,7 @@
 # DESCRIPTION
 # 
 #       Produce binary language model from plain sentence list.  Invokes CMU-created perl script
-#       located in /opt/vmc/tools.  Saves file in given directory.
+#       located in /opt/vmc/lib.  Saves file in given directory.
 # 
 # USAGE
 # 
@@ -21,12 +21,12 @@ model_name=$2
 
 save_directory=$3
 
-tools_dir=/opt/vmc/tools
+lib_dir=/opt/vmc/lib
 
 # COMMANDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # run perl script to create language model
-perl $tools_dir/quick_lm.pl -s $sentence_list_path #&> /dev/null
+perl $lib_dir/quick_lm.pl -s $sentence_list_path #&> /dev/null
 
 sentence_list=`basename $sentence_list_path`
 
