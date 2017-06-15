@@ -15,11 +15,12 @@
 #
 # VARIABLE DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-audio_folder_path="$1"          # e.g. ~/.psyche/audio/training
-fileids_location="$3"           # e.g. ~/.psyche/audio/training/model.fileids
+audio_folder_path="$1"          # e.g. ~/.psyche/audio
 
 # i.e. /usr/local/lib/python2.7/dist-packages/pocketsphinx/model/en-us
 acoustic_model_location="$2"
+
+fileids_location="$3"           # e.g. ~/.psyche/audio/model.fileids
 
 # FUNCTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
