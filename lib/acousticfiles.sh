@@ -30,13 +30,13 @@ fileids_location="$3"           # e.g. ~/.psyche/audio/model.fileids
 
 echo "Generating acoustic feature files..."
 cd $audio_folder_path  # sphinx_fe likes to have a consistent working directory
-sphinx_fe -argfile \
-          "$acoustic_model_location/feat.params" \
-          -samprate 16000 \
-          -c $fileids_location \
-          -di . \
-          -do . \
-          -ei wav \
-          -eo mfc \
-          -mswav yes \
-          &> /dev/null
+sudo sphinx_fe -argfile \
+               "$acoustic_model_location/feat.params" \
+               -samprate 16000 \
+               -c $fileids_location \
+               -di . \
+               -do . \
+               -ei wav \
+               -eo mfc \
+               -mswav yes \
+               &> /dev/null
