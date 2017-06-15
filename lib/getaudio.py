@@ -2,23 +2,23 @@
 # 
 # DESCRIPTION
 # 
-#       getaudio is used to sequentially prompt the user for dictations of displayed sentences.
+#       getaudio is used to sequentially prompt the user for dictations of 
+#       displayed sentences.
 #
-# DEPENDENCIES 
-# 
-#       python3-pyaudio, python3
+# DEPENDENCIES: python3-pyaudio, python3
 #
 # USAGE
 # 
-#       python3 getaudio.py sentence-file /output/folder recording-repetitions model-name
+#       python3 getaudio.py sentence-file \
+#                           /output/folder \
+#                           recording-repetitions \
+#                           model-name
 #
-# LIBRARY IMPORTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# LIBRARY IMPORTS -------------------------------------------------------------
 
 import sys, os, _thread, pyaudio, wave, contextlib
 
-# VARIABLE DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-pronunciation_dictionary="cmudict-en-us.dict"
+# VARIABLE DEFINITIONS --------------------------------------------------------
 
 chunk = 1024
 FORMAT = pyaudio.paInt16
@@ -26,13 +26,9 @@ CHANNELS = 1
 RATE = 16000
 
 sentence_file = sys.argv[1]
-
 output_folder = sys.argv[2].rstrip(os.sep)
-
 reps = int(sys.argv[3])
-
 model_name = sys.argv[4]
-
 
 # FUNCTION DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
