@@ -96,21 +96,29 @@ for line in lines*iterations:
     formatted_audio_file_number = str('%04d'%recording_count)
 
     # create transcription file -----------------------------------------------
+    
+    # clean up the text 
     exclude = set(string.punctuation)
     sentence = ''.join(ch for ch in line if ch not in exclude)
-
     nice_text = sentence.lower().rstrip()
+
+    # format text string and file name with file ids 
     formatted_text = "</s> "+nice_text+" </s> ("+model_name+"_"+formatted_audio_file_number+")\n"
     formatted_filename = audio_folder + "/" +model_name + '.transcription'
 
+    # save into transcription file
     append_to_file(formatted_filename, formatted_text)
     
     #create fileid file -------------------------------------------------------
+
+    # format file id entry and filename
     formatted_text = model_name + "_" + formatted_audio_file_number + "\n"
     formatted_filename = audio_folder + "/" +model_name + '.fileids'
 
+    # save into fileids file
     append_to_file(formatted_filename, formatted_text)
 
+    # ????
     sentences_text = sentences_text+' '+line # why twice? I have no memory of 
                                              # why I did this.  I don't think 
                                              # it does anything, either. TODO:
