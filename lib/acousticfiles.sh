@@ -16,12 +16,17 @@
 # VARIABLE DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 audio_folder_path="$1"          # e.g. ~/.psyche/audio/training
-acoustic_model_location="$2"    # e.g. /usr/bin/local/python/pocketsphinx/en-us
 fileids_location="$3"           # e.g. ~/.psyche/audio/training/model.fileids
 
-# FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# i.e. /usr/local/lib/python2.7/dist-packages/pocketsphinx/model/en-us
+acoustic_model_location="$2"
 
-# generate some acoustic feature files
+# FUNCTION ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# generate some acoustic feature files - if supplementing an existing audio 
+# collection, this will overwrite the preexisting feature files.  There isn't a
+# way around that without either ugly hacks or a rewrite of the sphinx_fe file.
+
 echo "Generating acoustic feature files..."
 cd $audio_folder_path  # sphinx_fe likes to have a consistent working directory
 sphinx_fe -argfile \
@@ -34,7 +39,3 @@ sphinx_fe -argfile \
           -eo mfc \
           -mswav yes \
           &> /dev/null
-
-
-
-
