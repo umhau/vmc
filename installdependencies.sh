@@ -111,6 +111,7 @@ if [ ! -d $installation_directory/sphinxbase/ ]; then
     make -j $CORES
     make -j $CORES check
     sudo make -j $CORES install
+    sudo chown -R $USER: $installation_directory # bug: dir had root ownership.
 else
   echo "Done."
   echo "SphinxBase already installed."
@@ -129,6 +130,7 @@ if [ ! -d $installation_directory/sphinxtrain/ ]; then
     ./configure
     make -j $CORES
     sudo make -j $CORES install
+    sudo chown -R $USER: $installation_directory # bug: dir had root ownership.
     echo "Done."
 else
   echo "Done."
@@ -150,6 +152,7 @@ if [ ! -d $installation_directory/pocketsphinx/ ]; then
     make -j $CORES clean all
     make -j $CORES check
     sudo make -j $CORES install
+    sudo chown -R $USER: $installation_directory # bug: dir had root ownership.
     echo "done."
 else
   echo "Done."

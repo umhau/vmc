@@ -1,0 +1,140 @@
+#!/bin/bash
+# 
+# DESCRIPTION
+# 
+#       Given a sentence file and (optionally) prerecorded audio files, produce
+#       a voice model in a specified location.  Indicate whether to record 
+#       (-newrecordings) or import (-importrecordings) the audio files.
+# 
+#       The statistical language model is now produced separately, run 'lmt' to
+#       see what the parameters are.
+#
+#       There are two modes of operation: 1) adapt an existing model to use new
+#       audio data and 2) create a new model from scratch.  In either case, 
+#       there are three options for sourcing the audio: 1) record new audio, 2) 
+#       import audio from a folder, or 3) add new recordings to the previously 
+#       recorded audio data ('addrecordings', below).
+#
+#       If importing audio, be aware that the model names of the acoustic m
+#       models used must match exactly.       
+#
+#       If creating a new model, there is a copy of the standard acoustic voice
+#       model stored in /opt/vmc/lib/en-us.  Copy it into the home directory 
+#       before use.  (sudo cp /opt/vmc/lib/en-us ~/Documents/)
+#
+#       If importing audio files, the associated text file with sentences must
+#       be located in the folder with the audio, and follow the naming and 
+#       internal formatting standards.
+#
+#       The [reps] variable at the end specifies how many times to request a 
+#       recording of each entry in the sentence file.  It is optional, as it is
+#       placed at the end of the list of parameters and the script will not 
+#       fail if it is not specified.
+#
+# USAGE | EXAMPLES ------------------------------------------------------------
+# 
+#   vmc en-us \
+#       -adapt /extant/model/location \
+#       -addrecordings /audio/files/location /dictation/file/location.txt 5
+#
+#   vmc en-us \
+#       -create /place/to/put/model \
+#       -newrecordings /place/to/put/audio/files /dictation/file/location.txt 5 
+#
+#   vmc en-us \
+#       -adapt /extant/model/location \
+#       -importrecordings /audio/files/location
+# 
+# VARIABLES ===================================================================
+
+model_name="$1"     # i.e. 'en-us'
+model_location="$3" # i.e. /usr/local/lib/python2.7/dist-packages/pocketsphinx/model/en-us
+audio_folder="$5"   # i.e. ~/.psyche/audio
+
+if [ $4 == '-newrecordings' ] || [ $4 == '-addrecordings' ]; then dict_file="$6"; reps="$7";
+else echo "Bad options given. Run: 'nano /usr/local/bin/vmc'."; exit 1; fi
+
+current_number_of_recordings="0" # changed below, if there are any.
+
+libdir="/opt/vmc/lib"
+
+# COMMANDS ====================================================================
+
+# misc. housekeeping ----------------------------------------------------------
+
+sudo ls 1>/dev/null # get sudo
+
+export LD_LIBRARY_PATH=/usr/local/lib # include sphinx library location 
+# I need to do this any time I want to use the manually downloaded CMU Sphinx.
+# http://jrmeyer.github.io/installation/2016/01/08/Installing-CMU-Sphinx-on-Ubuntu.html
+
+if [ $2 == '-create' ] && [ ! -d "$model_location" ]; then 
+    echo "Press [enter] to confirm writing new acoustic model at:"
+    echo "$model_location"; read
+    mkdir $model_location; cp -r /opt/vmc/lib/en-us/* "$model_location/";
+elif [ $2 == '-create' ] && [ -d "$model_location" ]; then 
+    echo -n "Model already exists at this directory! Press [enter] to overwrite."; read
+    sudo rm -r $model_location
+    mkdir $model_location; cp -r /opt/vmc/lib/en-us/* "$model_location/";
+fi
+
+# record new audio files ------------------------------------------------------
+
+if [ $4 = '-addrecordings' ]; then # find how many recordings were already made
+    current_number_of_recordings=$(ls $audio_folder/$model_name*.wav | tail -1 | sed 's/[^0-9]*//g' | bc -l); 
+    echo $current_number_of_recordings
+else 
+    sudo mkdir -p $audio_folder
+    current_number_of_recordings='0'
+fi
+
+if [ $4 = '-newrecordings' ] && [ -d "$audio_folder" ]; then 
+    echo -n "Audio already exists at this directory! Press [enter] to overwrite."; read
+    sudo rm -r $audio_folder; mkdir $audio_folder
+fi
+
+if [ $4 = '-newrecordings' ] || [ $4 = '-addrecordings' ]; then # record audio into folder.
+
+    sudo python3 $libdir/getaudio.py \
+        $dict_file \
+        $audio_folder \
+        $reps \
+        $model_name \
+        $current_number_of_recordings
+    sudo chown -R $USER: $audio_folder # bug: dir had root ownership.
+    echo "Audio files saved into $audio_folder. They can be reused."
+fi
+
+# PRODUCE DERIVATIVE FILES ----------------------------------------------------
+# These are recreated for all audio files, regardless of whether this is a new
+# collection of recordings or just adding to an old one.  Simpler that way.
+
+echo -e "\nProducing sentence file derivatives..."
+sudo python3 $libdir/format_text.py \
+    $dict_file \
+    $model_name \
+    $audio_folder \
+    $reps \
+    $current_number_of_recordings
+
+echo "Producing audio file derivatives..."
+sudo bash $libdir/acousticfiles.sh \
+    "$audio_folder" \
+    "$model_location" \
+    "$audio_folder/$model_name.fileids"
+
+# CREATE MODELS ---------------------------------------------------------------
+
+echo "Creating voice model..."
+sudo bash $libdir/voicemodel.sh $model_name $model_location $audio_folder 
+
+# FIX ROOT PERMISSIONS --------------------------------------------------------
+# I really hope this isn't horrible practice, but it's the most straightforward
+# way to make sure the wrong stuff isn't left owned by root
+sudo chown -R $USER: $model_location
+sudo chown -R $USER: $audio_folder
+
+# DONE ------------------------------------------------------------------------
+echo "Process complete."
+echo -e "ACOUSTIC VOICE MODEL: \t $model_location"
+echo -e "VOICE RECORDINGS: \t $audio_folder"

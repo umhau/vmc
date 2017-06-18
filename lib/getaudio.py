@@ -2,39 +2,41 @@
 # 
 # DESCRIPTION
 # 
-#       getaudio is used to sequentially prompt the user for dictations of displayed sentences.
+#       getaudio is used to sequentially prompt the user for dictations of 
+#       displayed sentences.
 #
-# DEPENDENCIES 
-# 
-#       python3-pyaudio, python3
+# DEPENDENCIES: python3-pyaudio, python3
 #
 # USAGE
 # 
-#       python3 getaudio.py sentence-file /output/folder recording-repetitions model-name
+#       python3 getaudio.py /path/to/simple-list-of-sentences.txt \
+#                           /audio/recording/folder \
+#                           recording-repetitions \
+#                           model-name \
+#                           num_of_preexisting_audio_recordings
 #
-# LIBRARY IMPORTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# LIBRARY IMPORTS -------------------------------------------------------------
 
 import sys, os, _thread, pyaudio, wave, contextlib
 
-# VARIABLE DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-pronunciation_dictionary="cmudict-en-us.dict"
+# VARIABLE DEFINITIONS --------------------------------------------------------
 
 chunk = 1024
 FORMAT = pyaudio.paInt16
 CHANNELS = 1
 RATE = 16000
 
-sentence_file = sys.argv[1]
+sentence_file = sys.argv[1]                # e.g. ~/sentencelist.txt
+audio_recording_folder = sys.argv[2].rstrip(os.sep) # e.g. ~/.psyche/audio
+reps = int(sys.argv[3])                    # e.g. 5
+model_name = sys.argv[4]                   # e.g. 'en-us'
 
-output_folder = sys.argv[2].rstrip(os.sep)
+try:
+    recording_count = int(sys.argv[5]) # how many audio files already exist
+except IndexError:
+    recording_count = 0
 
-reps = int(sys.argv[3])
-
-model_name = sys.argv[4]
-
-
-# FUNCTION DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# FUNCTION DEFINITIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 # ignore sdterr messages: as from pyaudio
 @contextlib.contextmanager
@@ -93,10 +95,10 @@ def record_until_keypress(audio_filepath):
     wf.close()
 
 
-# LOGIC ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# LOGIC ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-if not os.path.exists(output_folder):
-    os.makedirs(output_folder)
+if not os.path.exists(audio_recording_folder):
+    raise NotADirectoryError("Audio recording save folder does not exist.")
 
 # create list of sentences for prompt
 sentence_list = []
@@ -104,24 +106,22 @@ with open(sentence_file) as f:
     for line in f:
         sentence_list.append(line)
 
-num_recs = len(sentence_list)*reps
+num_recs = len(sentence_list)*reps+recording_count
 
 # collect audio files
 try:
 
     input("Press [enter], read text, & press [enter].")
 
-    j=0
-
     for sentence in sentence_list*reps: 
         #recording number
-        j+=1
+        recording_count+=1
 
         # record audio with visual
-        print("Recording no. %04d of %04d: \n\n\t%s" % (j, num_recs, sentence), end='\r')
+        print("Recording no. %04d of %04d: \n\n\t%s" % (recording_count, num_recs, sentence), end='\r')
 
         # recording file should look like this (e.g.): ./bespoke_training_data/audio/arctic_0001.wav        
-        record_until_keypress(str(output_folder + os.sep + model_name + "_%04d.wav" % j))
+        record_until_keypress(str(audio_recording_folder + os.sep + model_name + "_%04d.wav" % recording_count))
 
 except KeyboardInterrupt:
     pass
