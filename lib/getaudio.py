@@ -106,7 +106,7 @@ with open(sentence_file) as f:
     for line in f:
         sentence_list.append(line)
 
-num_recs = len(sentence_list)*reps
+num_recs = len(sentence_list)*reps+recording_count
 
 # collect audio files
 try:

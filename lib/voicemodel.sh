@@ -20,7 +20,7 @@
 # VARIABLES ===================================================================
 
 model_name=$1          # If performing adaptation, this must match prior names.
-acoustic_model_dir=$2  # 'en-us' default voice model folder
+acoustic_model_dir=$2  # acoustic model folder, often the default 'en-us'
 audio_file_dir=$3      # contains audio file and sentence file derivatives
 
 libdir=/opt/vmc/lib

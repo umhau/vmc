@@ -57,12 +57,13 @@ model_name = sys.argv[2]
 audio_folder = sys.argv[3].rstrip(os.sep)
 iterations = int(sys.argv[4])
 pronunciation_dictionary = '/opt/vmc/lib/cmudict-en-us.dict'
+recording_count = int(sys.argv[5]) # how many audio files already exist
 
-try:
-    recording_count = int(sys.argv[5]) # how many audio files already exist
-except IndexError:
-    recording_count = 0
-
+if recording_count == 0:
+    append_to_existing=False
+else:
+    append_to_existing=True
+   
 # LOGIC =======================================================================
 
 # Print iterations progress ---------------------------------------------------
@@ -126,36 +127,38 @@ for line in lines*iterations:
 
 # CREATE PRONUNCIATION DICTIONARY ---------------------------------------------
 
+# this is the same for the new file and the old file
+uwordsfilename = str(audio_folder+'/'+model_name+'.vocab') # correct extension
+
 # create unique, sorted word list from sentence list
-words = []
-print("Creating unique, sorted word list...")
-[words.append(word.strip(string.punctuation).upper()) for word in sentences_text.split()]
+words = []; print("Creating unique, sorted word list...")
+
+# get words from new sentence file
+[words.append(word.strip(string.punctuation).upper().rstrip()) for word in sentences_text.split()]
+
+# add the words from the old word list (if this is appending to an old model)
+if append_to_existing:
+    with open(uwordsfilename) as f:
+        for word in f: words.append(word.strip(string.punctuation).upper().rstrip())
+
 # set() uniques the list, sorted() puts them a-z.
-uwords = sorted(list(set(words))) 
+uwords = list(filter(None, sorted(list(set(words)))))
 
 # save word list to file
-print("Saving word list to file...")
-uwordsfilename = str(audio_folder+'/'+model_name+'.vocab') # correct extension
-uwordsfile = open(uwordsfilename, 'w')
+print("Saving word list to file..."); uwordsfile = open(uwordsfilename, 'w')
 for word in uwords:
     uwordsfile.write("%s\n" % word)
 
 # create pronunciation dictionary from word list
 if create_pronunciation_dictionary:
-    cmudict = []
-    print("Opening pronunciation dictionary...")
+    cmudict = []; print("Opening pronunciation dictionary...")
     with open(pronunciation_dictionary) as f:
         for line in f:
             cmudict.append(line)
 
-    pdict = []
-    missing_words = []
-    l = len(uwords)
-    i = 0
     print("Extracting entries corresponding to word list...")
-    printProgress (i, l, prefix = 'Progress:', suffix = 'Complete', decimals = 2, barLength = 20)
-
-    curr_line = 0
+    pdict = []; missing_words = []; l = len(uwords); i = 0; curr_line = 0
+    printProgress (i, l, prefix = 'Progress:', suffix = 'Complete', decimals = 2, barLength = 20) 
 
     for word in uwords:
         

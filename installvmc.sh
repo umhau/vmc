@@ -1,17 +1,15 @@
 #!/bin/bash
 # 
-# USAGE
+# USAGE =======================================================================
 # 
 #       bash installvmc.sh
 # 
-# NOTES
+# NOTES =======================================================================
 # 
 #       Copies the vmc packages into /opt/vmc, and puts the vmc script into
 #       /usr/local/bin.  Once there, vmc can be called (with its requisite 
 #       options) from anywhere with just vmc.sh.
 # 
-
-
 # SET VARIABLES ===============================================================
 
 # Absolute path to this script & containing folder.  stackoverflow.com/q/242538
@@ -32,19 +30,16 @@ fi
 # MOVE VMC FILES ==============================================================
 
 # get sudo 
-sudo ls 1>/dev/null; echo -n "Installing vmc..."
+sudo ls 1>/dev/null; echo -en "\nInstalling vmc..."
 
 # create vmc directories
 sudo mkdir -p $libdir; sudo mkdir -p $libdir
 
-# move tools
-sudo cp -r $scriptpath/tools/* $libdir/
-
-sudo tar -xf $scriptpath/cmusphinx-en-us-ptm-5.2.tar.gz -C $libdir
-sudo mv  $libdir/cmusphinx-en-us-ptm-5.2 $libdir/en-us
-
-# move functions
+# move library
 sudo cp -r $scriptpath/lib/* $libdir/
+
+sudo tar -xf $scriptpath/lib/cmusphinx-en-us-ptm-5.2.tar.gz -C $libdir
+sudo mv  $libdir/cmusphinx-en-us-ptm-5.2 $libdir/en-us
 
 # move vmc into user's path & set as executable
 sudo cp $scriptpath/vmc /usr/local/bin/vmc

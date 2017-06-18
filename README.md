@@ -10,12 +10,6 @@ Note this tool has only been tested with Linux Mint 17.3 & 18.
 
 **Please see the LICENSE file for terms of use.**
 
-TODO
-----
-
-Make sure that if I work from prerecorded audio files, I can add to a set of 
-files already recorded.  
-
 Linux/Unix installation
 -------------------------------------------------------------------------------
 
@@ -35,25 +29,19 @@ Commands:
 
 See use examples in the next section.
 
-Usage instructions
+Usage Examples
 -------------------------------------------------------------------------------
 
-Example usage, recording new audio with 5 repetitions of each sentence:
+Add to a preexisting set of recordings, and adapt an existing acoustic model.
 
-    vmc new_model -record ~/Downloads/sentences.txt ~/projects/new_model 5
+    vmc en-us -adapt /extant/model/location -addrecordings /audio/files/location /dictation/file/location.txt 5
 
-Example usage, importing previously created audio files:
+Create a new model, and create a new set of audio recordings.
 
-    vmc ccmodel -import audio_files cc.list ~/tools/ccmodel
+    vmc en-us -create /place/to/put/model -newrecordings /place/to/put/audio/files /dictation/file/location.txt 5 
 
-Note that the model name and the name of the model folder should be the same. 
-Also note the repetitions specification is optional; it defaults to 1.
-
-The model folder will contain all necessary files to run PocketSphinx with the 
-newly created custom voice model.
-
-Note that dependencies are not checked when running vmc.  To check 
-dependencies, see the section above. 
+Import a previously created set of recordings, and adapt a preexisting model.
+    vmc en-us -adapt /extant/model/location -importrecordings /audio/files/location
 
 File Structure
 -------------------------------------------------------------------------------
@@ -77,7 +65,6 @@ structure is as follows (incomplete, only showing commonly-used files):
     
     acoustic-model
     - feat.params
-
 
 Background
 -------------------------------------------------------------------------------
