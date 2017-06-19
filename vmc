@@ -6,7 +6,7 @@
 #       a voice model in a specified location.  Indicate whether to record 
 #       (-newrecordings) or import (-importrecordings) the audio files.
 # 
-#       The statistical language model is now produced separately, run 'lmt' to
+#       The statistical language model is now produced separately, run 'lmc' to
 #       see what the parameters are.
 #
 #       There are two modes of operation: 1) adapt an existing model to use new
@@ -70,7 +70,7 @@ if [ $1 == '-remove' ] || [ $1 == '-uninstall' ]; then
     echo -n "Press [enter] to confirm removing VMC."; read
     sudo rm -rf /opt/vmc
     sudo rm -f /usr/local/bin/vmc
-    sudo rm -f /usr/local/bin/lmt
+    sudo rm -f /usr/local/bin/lmc
     echo "vmc removed."
 fi
 

@@ -46,7 +46,7 @@
 # n-grams observed, since each n-gram is stored as a hash key. (So 
 # smaller vocabularies may turn out to be a problem as well.)
 # 
-# This package computes a stadard back-off language model. It differs 
+# This package computes a standard back-off language model. It differs 
 # in one significant respect, which is the computation of the 
 # discount. We adopt a "proportional" (or ratio) discount in which a 
 # certain percentage of probability mass is removed (typically 50%) 

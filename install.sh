@@ -118,9 +118,9 @@ sudo mv  $libdir/cmusphinx-en-us-ptm-5.2 $libdir/en-us
 sudo cp $scriptpath/vmc /usr/local/bin/vmc
 sudo chmod +x /usr/local/bin/vmc
 
-# move lmt into user's path  & set as executable
-sudo cp $scriptpath/lmt /usr/local/bin/lmt
-sudo chmod +x /usr/local/bin/lmt
+# move lmc into user's path  & set as executable
+sudo cp $scriptpath/lmc /usr/local/bin/lmc
+sudo chmod +x /usr/local/bin/lmc
 
 # GET SPHINXTRAIN BINARIES ========================================================================
 

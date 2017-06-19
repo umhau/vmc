@@ -1,0 +1,43 @@
+#!/bin/bash
+# 
+# DESCRIPTION
+# 
+#       Given a list of sentences, create a statistical language model.  
+#
+#       (Produces a binary language model from plain sentence list.  Invokes 
+#       CMU-created perl script located in /opt/vmc/lib.  Saves file in given 
+#       directory.)
+#
+# USAGE: 
+#
+#       lmc sentence-list lm-filename save-directory
+#
+# VARIABLES ===================================================================
+
+sentence_list_path=$1
+lm_filename=$2
+save_directory=$3
+
+lib_dir=/opt/vmc/lib
+
+# CHECK IF HELP NEEDED ========================================================
+
+if [[ -z $1 ]]; then  
+    echo -e "\nUSAGE: \tlmc "
+    echo -e "\n\tsentence_list_file\t(input file with sample sentences)"
+    echo -e "\toutput_lm_file_name\t(desired base name of output lm file)"
+    echo -e "\tsave_directory\t\t(location to save the ouput file into)\n"
+    exit 1
+fi
+
+# COMMANDS ====================================================================
+
+# run perl script to create language model
+perl $lib_dir/quick_lm.pl -s $sentence_list_path #&> /dev/null
+
+# rename output
+mv "$sentence_list_path.arpabo" "$save_directory/$lm_filename.lm"
+
+# convert lm from text to binary 
+filenamedir=$save_directory/$lm_filename.lm
+sphinx_lm_convert -i $filenamedir -o $filenamedir.bin &> /dev/null
