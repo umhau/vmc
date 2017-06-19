@@ -53,11 +53,13 @@ model_name="$1"     # i.e. 'en-us'
 model_location="$3" # i.e. /usr/local/lib/python2.7/dist-packages/pocketsphinx/model/en-us
 audio_folder="$5"   # i.e. ~/.psyche/audio
 
-if [ $4 == '-newrecordings' ] || [ $4 == '-addrecordings' ]; then dict_file="$6"; reps="$7";
-else echo "Bad options given. Run: 'nano /usr/local/bin/vmc'."; exit 1; fi
+if [ $4 == '-newrecordings' ] || [ $4 == '-addrecordings' ]; then 
+    dict_file="$6"; reps="$7"
+else 
+    echo "Bad options given. Run: 'nano /usr/local/bin/vmc'."; exit 1
+fi
 
 current_number_of_recordings="0" # changed below, if there are any.
-
 libdir="/opt/vmc/lib"
 
 # COMMANDS ====================================================================

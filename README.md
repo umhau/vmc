@@ -24,8 +24,19 @@ Commands:
     cd ~/Downloads
     git clone https://github.com/umhau/vmc.git
     cd ./vmc
-    sudo bash ./installdependencies.sh ~/tools
-    sudo bash ./installvmc.sh
+    sudo bash install.sh
+
+If the dependencies involved were already installed, use the following to 
+install only the vmc program files (old versions will be automatically 
+removed).
+
+    cd ./vmc
+    sudo bash install.sh -no-deps
+
+To remove vmc, run either of the following commands:
+
+    vmc -remove
+    vmc -uninstall
 
 See use examples in the next section.
 
@@ -41,7 +52,9 @@ Create a new model, and create a new set of audio recordings.
     vmc en-us -create /place/to/put/model -newrecordings /place/to/put/audio/files /dictation/file/location.txt 5 
 
 Import a previously created set of recordings, and adapt a preexisting model.
+
     vmc en-us -adapt /extant/model/location -importrecordings /audio/files/location
+
 
 File Structure
 -------------------------------------------------------------------------------
