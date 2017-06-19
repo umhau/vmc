@@ -21,9 +21,9 @@ libdir=/opt/vmc/lib
 
 if [ -d /opt/vmc/ ]; then
 
-    bash $scriptpath/uninstallvmc.sh 1>/dev/null; echo -n "Removed vmc"; 
+    bash "$scriptpath/vmc -remove 1>/dev/null"; echo -n "Removed vmc"; 
     
-    # echo "vmc is already installed.  To remove, run uninstallvmc.sh"; exit 1
+    # echo "vmc is already installed.  To remove, run vmc -remove"; exit 1
 
 fi
 

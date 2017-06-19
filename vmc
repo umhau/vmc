@@ -44,6 +44,8 @@
 #   vmc en-us \
 #       -adapt /extant/model/location \
 #       -importrecordings /audio/files/location
+#
+#   vmc [ -remove OR -uninstall ]
 # 
 # VARIABLES ===================================================================
 
@@ -59,6 +61,16 @@ current_number_of_recordings="0" # changed below, if there are any.
 libdir="/opt/vmc/lib"
 
 # COMMANDS ====================================================================
+
+# remove vmc ------------------------------------------------------------------
+
+if [ $1 == '-remove' ] || [ $1 == '-uninstall' ]; then 
+    echo -n "Press [enter] to confirm removing VMC."; read
+    sudo rm -rf /opt/vmc
+    sudo rm -f /usr/local/bin/vmc
+    sudo rm -f /usr/local/bin/lmt
+    echo "vmc removed."
+fi
 
 # misc. housekeeping ----------------------------------------------------------
 
