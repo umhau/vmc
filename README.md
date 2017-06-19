@@ -6,7 +6,8 @@ This tool contains basic tools for creating a custom domain voice model for use
 with the PocketSphinx decoder.  It is also possible to use the voice models 
 created by this tool as the basis for a test-to-speech engine.  
 
-Note this tool has only been tested with Linux Mint 17.3 & 18.
+Note this tool has only been tested with Linux Mint 17.3 & 18 and Ubuntu GNOME 
+17.04.  No good reason it should fail elsewhere, but use at your own risk.
 
 **Please see the LICENSE file for terms of use.**
 
@@ -54,7 +55,6 @@ Create a new model, and create a new set of audio recordings.
 Import a previously created set of recordings, and adapt a preexisting model.
 
     vmc en-us -adapt /extant/model/location -importrecordings /audio/files/location
-
 
 File Structure
 -------------------------------------------------------------------------------
