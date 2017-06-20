@@ -36,13 +36,13 @@ CMUsrc="cmusphinx" # or "umhau"
 # CHECK FOR PREVIOUS INSTALLATION =============================================
 
 if [ -d /opt/vmc/ ]; then
-    bash "$scriptpath/vmc -remove 1>/dev/null"; echo -n "Removed vmc"
+    bash "vmc -remove 1>/dev/null"; echo "Removed vmc"
 fi
 
 # INSTALL VMC DEPENDENCIES ====================================================
 if [ ! "$1" == '-no-deps' ]; then
 
-    echo -n "Installing dependencies. To continue, press [enter]."; read
+    echo "Installing dependencies. To continue, press [enter]."; read
 
     if [ ! -d $install_dir ]; then mkdir $install_dir; fi
 
