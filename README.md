@@ -25,7 +25,7 @@ Commands:
     cd ~/Downloads
     git clone https://github.com/umhau/vmc.git
     cd ./vmc
-    sudo bash install.sh
+    bash install.sh
 
 If the dependencies involved were already installed, use the following to 
 install only the vmc program files (old versions will be automatically 
@@ -37,7 +37,6 @@ removed).
 To remove vmc, run either of the following commands:
 
     vmc -remove
-    vmc -uninstall
 
 See use examples in the next section.
 
