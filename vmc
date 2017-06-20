@@ -68,7 +68,7 @@ libdir="/opt/vmc/lib"
 
 # remove vmc ------------------------------------------------------------------
 
-if [ $1 == '-remove' ] || [ $1 == '-uninstall' ]; then 
+if [ $1 == '-remove' ]; then 
     echo -n "Press [enter] to confirm removing VMC."; read
     sudo rm -rf /opt/vmc
     sudo rm -f /usr/local/bin/vmc
