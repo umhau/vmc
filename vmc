@@ -55,7 +55,9 @@ audio_folder="$5"   # i.e. ~/.psyche/audio
 
 if [ $4 == '-newrecordings' ] || [ $4 == '-addrecordings' ]; then 
     dict_file="$6"; reps="$7"
-else 
+elif [ $1 == '-remove' ] || [ $1 == '-uninstall' ]; then 
+    echo -n ""
+else
     echo "Bad options given. Run: 'nano /usr/local/bin/vmc'."; exit 1
 fi
 
@@ -72,6 +74,7 @@ if [ $1 == '-remove' ] || [ $1 == '-uninstall' ]; then
     sudo rm -f /usr/local/bin/vmc
     sudo rm -f /usr/local/bin/lmc
     echo "vmc removed."
+    exit 1
 fi
 
 # misc. housekeeping ----------------------------------------------------------
