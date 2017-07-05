@@ -59,7 +59,7 @@ clean_lib_directory() {
 
 ensure_files_are_present() {
 
-    if [ -d "$lib_backup_dir" ] # if no backup made, assume files are present
+    if [ ! -d "$lib_backup_dir" ] # if no backup made, assume files are present
     then 
         :
     else
