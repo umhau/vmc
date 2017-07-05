@@ -30,7 +30,7 @@ script=$(readlink -f "$0")
 scriptpath=$(dirname "$script") 
 
 # CMU Sphinx install location - my static repo or the official source?
-CMUsrc="cmusphinx" # or "umhau"
+CMUsrc="umhau" # or "cmusphinx"
 
 install_dir="/home/$USER/CMU_Sphinx"
 
