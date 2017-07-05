@@ -89,21 +89,21 @@ install_dependencies() {
         echo "SphinxTrain already installed."
     fi
 
-    # check for and install pocketsphinx
-    echo -n "Checking for pocketsphinx..."
-    if [ ! -d $install_dir/pocketsphinx/ ]; then
-        echo "installing..."; cd $install_dir
-        git clone "https://github.com/$CMUsrc/pocketsphinx.git"
-        cd ./pocketsphinx
-        ./autogen.sh
-        ./configure
-        make -j $CORES clean all
-        make -j $CORES check
-        sudo make -j $CORES install
-        sudo chown -R $USER: $install_dir # bug: dir had root ownership.
-    else
-        echo "PocketSphinx already installed."
-    fi
+    # # check for and install pocketsphinx
+    # echo -n "Checking for pocketsphinx..."
+    # if [ ! -d $install_dir/pocketsphinx/ ]; then
+    #     echo "installing..."; cd $install_dir
+    #     git clone "https://github.com/$CMUsrc/pocketsphinx.git"
+    #     cd ./pocketsphinx
+    #     ./autogen.sh
+    #     ./configure
+    #     make -j $CORES clean all
+    #     make -j $CORES check
+    #     sudo make -j $CORES install
+    #     sudo chown -R $USER: $install_dir # bug: dir had root ownership.
+    # else
+    #     echo "PocketSphinx already installed."
+    # fi
 
 }
 
