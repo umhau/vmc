@@ -11,14 +11,15 @@ Note this tool has only been tested with Linux Mint 17.3 & 18 and Ubuntu GNOME
 
 **Please see the LICENSE file for terms of use.**
 
-Linux/Unix installation
+installation
 -------------------------------------------------------------------------------
+
+This is tested on Ubuntu GNOME 17.04.  Further testing has not been performed.
 
 You should install dependencies first; this ensures that python-dev, 
 PocketSphinx, etc. are available.  Second, install vmc.  Some of the packages 
 need to be installed within the user's home directory; ~/tools is recommended.  
-This should be specified when installing the dependencies. Full installation on 
-an AMD64 computer running Mint 18 would look like this:
+This should be specified when installing the dependencies. 
 
 Commands:
 
@@ -45,15 +46,21 @@ Usage Examples
 
 Add to a preexisting set of recordings, and adapt an existing acoustic model.
 
-    vmc en-us -adapt /extant/model/location -addrecordings /audio/files/location /dictation/file/location.txt 5
+    vmc en-us \
+    -adapt /extant/model/location \
+    -addrecordings /audio/files/location /dictation/file/location.txt 5
 
 Create a new model, and create a new set of audio recordings.
 
-    vmc en-us -create /place/to/put/model -newrecordings /place/to/put/audio/files /dictation/file/location.txt 5 
+    vmc en-us \
+    -create /place/to/put/model \
+    -newrecordings /place/to/put/audio/files /dictation/file/location.txt 5 
 
 Import a previously created set of recordings, and adapt a preexisting model.
 
-    vmc en-us -adapt /extant/model/location -importrecordings /audio/files/location
+    vmc en-us \
+    -adapt /extant/model/location \
+    -importrecordings /audio/files/location
 
 File Structure
 -------------------------------------------------------------------------------
@@ -69,20 +76,20 @@ the en-us files have very default names.
 Most files have default names, or are named according to the model name. File 
 structure is as follows (incomplete, only showing commonly-used files):
 
-    audio-recordings
+    [audio-recordings]
     - [model name].fileids
     - [model name].transcription
     - mdef
     - mdef.txt
     
-    acoustic-model
+    [acoustic-model]
     - feat.params
 
 Background
 -------------------------------------------------------------------------------
 
-This tools brings together a number of disparate data files that are needed for 
-creating a voice model.  This graph illustrates the data process involved:
+This tool brings together a number of disparate data files that are needed for 
+creating a voice model.  This graph illustrates the algorithm:
 
                    word domain
                         +
@@ -106,3 +113,13 @@ creating a voice model.  This graph illustrates the data process involved:
 Each of these steps, starting with the sentence list (given) and ending with 
 the voice model are contained within this tool.
 
+The 'word domain' is the set of sentences, words and phrases used in the 
+training and in the use case scenario.  They must be as identical as possible
+to enable accurate recognition.
+
+Todo
+-------------------------------------------------------------------------------
+
+- clean up VMC script (add functions, make options tidier, etc.)
+
+- make sure that the process of removing conflicting libs actually works.

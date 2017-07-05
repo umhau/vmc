@@ -62,7 +62,6 @@ else
 fi
 
 current_number_of_recordings="0" # changed below, if there are any.
-libdir="/opt/vmc/lib"
 
 # COMMANDS ====================================================================
 
@@ -74,7 +73,7 @@ if [ $1 == '-remove' ]; then
     sudo rm -f /usr/local/bin/vmc
     sudo rm -f /usr/local/bin/lmc
     echo "vmc removed."
-    exit 1
+    exit 0
 fi
 
 # misc. housekeeping ----------------------------------------------------------
@@ -112,7 +111,7 @@ fi
 
 if [ $4 = '-newrecordings' ] || [ $4 = '-addrecordings' ]; then # record audio into folder.
 
-    sudo python3 $libdir/getaudio.py \
+    sudo python3 /opt/vmc/lib/getaudio.py \
         $dict_file \
         $audio_folder \
         $reps \
@@ -122,12 +121,16 @@ if [ $4 = '-newrecordings' ] || [ $4 = '-addrecordings' ]; then # record audio i
     echo "Audio files saved into $audio_folder. They can be reused."
 fi
 
+# MOVE CONFLICTING LIB FILES INTO LIB TEMPORARILY -----------------------------
+
+bash /opt/vmc/lib/move_ps_files.sh -into_lib
+
 # PRODUCE DERIVATIVE FILES ----------------------------------------------------
 # These are recreated for all audio files, regardless of whether this is a new
 # collection of recordings or just adding to an old one.  Simpler that way.
 
 echo -e "\nProducing sentence file derivatives..."
-sudo python3 $libdir/format_text.py \
+sudo python3 /opt/vmc/lib/format_text.py \
     $dict_file \
     $model_name \
     $audio_folder \
@@ -135,7 +138,7 @@ sudo python3 $libdir/format_text.py \
     $current_number_of_recordings
 
 echo "Producing audio file derivatives..."
-sudo bash $libdir/acousticfiles.sh \
+sudo bash /opt/vmc/lib/acousticfiles.sh \
     "$audio_folder" \
     "$model_location" \
     "$audio_folder/$model_name.fileids"
@@ -143,7 +146,9 @@ sudo bash $libdir/acousticfiles.sh \
 # CREATE MODELS ---------------------------------------------------------------
 
 echo "Creating voice model..."
-sudo bash $libdir/voicemodel.sh $model_name $model_location $audio_folder 
+sudo bash /opt/vmc/lib/voicemodel.sh $model_name $model_location $audio_folder 
+
+echo "Conflicting CMU Sphinx files moved into backup."
 
 # FIX ROOT PERMISSIONS --------------------------------------------------------
 # I really hope this isn't horrible practice, but it's the most straightforward
@@ -151,7 +156,12 @@ sudo bash $libdir/voicemodel.sh $model_name $model_location $audio_folder
 sudo chown -R $USER: $model_location
 sudo chown -R $USER: $audio_folder
 
+# MOVE CONFLICTING LIBS OUT OF THE WAY ----------------------------------------
+
+bash /opt/vmc/lib/move_ps_files.sh -out_of_lib
+
 # DONE ------------------------------------------------------------------------
 echo "Process complete."
 echo -e "ACOUSTIC VOICE MODEL: \t $model_location"
 echo -e "VOICE RECORDINGS: \t $audio_folder"
+

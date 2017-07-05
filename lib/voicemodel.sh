@@ -33,7 +33,7 @@ dict="/usr/local/lib/python2.7/dist-packages/pocketsphinx/model/cmudict-en-us.di
 # convert binary mdef file to .txt --------------------------------------------
 cd $acoustic_model_dir
 sudo pocketsphinx_mdef_convert \
-    -text $acoustic_model_dir/mdef $acoustic_model_dir/mdef.txt &> /dev/null
+    -text $acoustic_model_dir/mdef $acoustic_model_dir/mdef.txt #&> /dev/null
 
 # run tools to create voice model ---------------------------------------------
 cd $audio_file_dir
@@ -42,8 +42,8 @@ sudo sphinx_fe \
     -argfile $acoustic_model_dir/feat.params \
     -samprate 16000 \
     c $audio_file_dir/$model_name.fileids \
-    -di . -do . -ei wav -eo mfc -mswav yes \
-    &> /dev/null
+    -di . -do . -ei wav -eo mfc -mswav yes #\
+    # &> /dev/null
 
 sudo $libdir/bw \
     -hmmdir $acoustic_model_dir \
@@ -52,13 +52,13 @@ sudo $libdir/bw \
     -cmn current -agc none -dictfn $dict  \
     -ctlfn $audio_file_dir/$model_name.fileids \
     -lsnfn $audio_file_dir/$model_name.transcription \
-    -accumdir . \
-    &> /dev/null
+    -accumdir . #\
+    # &> /dev/null
 
 sudo $libdir/mllr_solve \
     -meanfn $acoustic_model_dir/means  \
     -varfn $acoustic_model_dir/variances \
-    -outmllrfn mllr_matrix -accumdir . &> /dev/null
+    -outmllrfn mllr_matrix -accumdir . #&> /dev/null
 
 sudo $libdir/map_adapt \
     -moddeffn $acoustic_model_dir/mdef.txt \
@@ -71,12 +71,12 @@ sudo $libdir/map_adapt \
     -mapmeanfn $acoustic_model_dir/means \
     -mapvarfn $acoustic_model_dir/variances \
     -mapmixwfn $acoustic_model_dir/mixture_weights \
-    -maptmatfn $acoustic_model_dir/transition_matrices\
-    &> /dev/null
+    -maptmatfn $acoustic_model_dir/transition_matrices #\
+    # &> /dev/null
 
 sudo $libdir/mk_s2sendump \
     -pocketsphinx yes \
     -moddeffn $acoustic_model_dir/mdef.txt \
     -mixwfn $acoustic_model_dir/mixture_weights \
-    -sendumpfn $acoustic_model_dir/sendump \
-    &> /dev/null
+    -sendumpfn $acoustic_model_dir/sendump #\
+    # &> /dev/null
