@@ -89,7 +89,7 @@ if [ $2 == '-create' ] && [ ! -d "$model_location" ]; then
     echo "$model_location"; read
     mkdir $model_location; cp -r /opt/vmc/lib/en-us/* "$model_location/";
 elif [ $2 == '-create' ] && [ -d "$model_location" ]; then 
-    echo -n "Model already exists at this directory! Press [enter] to overwrite."; read
+    echo -n "MODEL already exists at this directory! Press [enter] to overwrite."; read
     sudo rm -r $model_location
     mkdir $model_location; cp -r /opt/vmc/lib/en-us/* "$model_location/";
 fi
@@ -105,7 +105,7 @@ else
 fi
 
 if [ $4 = '-newrecordings' ] && [ -d "$audio_folder" ]; then 
-    echo -n "Audio already exists at this directory! Press [enter] to overwrite."; read
+    echo -n "AUDIO already exists at this directory! Press [enter] to overwrite."; read
     sudo rm -r $audio_folder; mkdir $audio_folder
 fi
 

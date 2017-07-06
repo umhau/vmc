@@ -45,20 +45,22 @@ Usage Examples
 -------------------------------------------------------------------------------
 
 Add to a preexisting set of recordings, and adapt an existing acoustic model.
+Use model name 'model-name' and require 5 recordings of every item in the 
+dictation file.
 
-    vmc en-us \
+    vmc model-name \
     -adapt /extant/model/location \
     -addrecordings /audio/files/location /dictation/file/location.txt 5
 
 Create a new model, and create a new set of audio recordings.
 
-    vmc en-us \
+    vmc model-name \
     -create /place/to/put/model \
     -newrecordings /place/to/put/audio/files /dictation/file/location.txt 5 
 
 Import a previously created set of recordings, and adapt a preexisting model.
 
-    vmc en-us \
+    vmc model-name \
     -adapt /extant/model/location \
     -importrecordings /audio/files/location
 
