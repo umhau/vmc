@@ -63,6 +63,21 @@ fi
 
 current_number_of_recordings="0" # changed below, if there are any.
 
+# FUNCTIONS ===================================================================
+
+make_sure_model_files_exist() {
+
+    for model_file in /opt/vmc/lib/en-us/*
+    do 
+        local filename=$(basename $model_file)
+        if [ ! -f "$model_location/$filename" ]
+        then 
+            sudo cp $model_file "$model_location/$filename"
+        fi
+    done
+
+}
+
 # COMMANDS ====================================================================
 
 # remove vmc ------------------------------------------------------------------
@@ -124,6 +139,10 @@ fi
 # MOVE CONFLICTING LIB FILES INTO LIB TEMPORARILY -----------------------------
 
 bash /opt/vmc/lib/move_ps_files.sh -into_lib
+
+# Make sure all the files exist that are needed -------------------------------
+
+make_sure_model_files_exist
 
 # PRODUCE DERIVATIVE FILES ----------------------------------------------------
 # These are recreated for all audio files, regardless of whether this is a new
