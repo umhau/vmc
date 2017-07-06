@@ -41,7 +41,7 @@ cd $audio_file_dir
 sudo sphinx_fe \
     -argfile $acoustic_model_dir/feat.params \
     -samprate 16000 \
-    c $audio_file_dir/$model_name.fileids \
+    -c $audio_file_dir/$model_name.fileids \
     -di . -do . -ei wav -eo mfc -mswav yes #\
     # &> /dev/null
 
