@@ -83,7 +83,6 @@ make_sure_model_files_exist() {
 # remove vmc ------------------------------------------------------------------
 
 if [ $1 == '-remove' ]; then 
-    echo -n "Press [enter] to confirm removing VMC."; read
     sudo rm -rf /opt/vmc
     sudo rm -f /usr/local/bin/vmc
     sudo rm -f /usr/local/bin/lmc
