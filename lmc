@@ -32,6 +32,8 @@ fi
 
 # COMMANDS ====================================================================
 
+
+
 # run perl script to create language model
 perl $lib_dir/quick_lm.pl -s $sentence_list_path #&> /dev/null
 
@@ -40,4 +42,7 @@ mv "$sentence_list_path.arpabo" "$save_directory/$lm_filename.lm"
 
 # convert lm from text to binary 
 filenamedir=$save_directory/$lm_filename.lm
-sphinx_lm_convert -i $filenamedir -o $filenamedir.bin &> /dev/null
+bash /opt/vmc/lib/move_ps_files.sh -into_lib
+LD_LIBRARY_PATH=/usr/local/lib; export LD_LIBRARY_PATH
+sphinx_lm_convert -i "$filenamedir" -o "$filenamedir.bin" #&> /dev/null
+bash /opt/vmc/lib/move_ps_files.sh -out_of_lib

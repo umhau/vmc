@@ -15,7 +15,8 @@
 # VARIABLES ===================================================================
 
 option="$1"
-lib_backup_dir="/home/$USER/CMU_Sphinx/shared_library_backup"
+username=$(logname)
+lib_backup_dir="/home/$username/CMU_Sphinx/shared_library_backup"
 
 # FUNCTIONS ===================================================================
 
@@ -33,6 +34,7 @@ copy_files_into_lib() {
     sudo cp $lib_backup_dir/libpocketsphinx* /usr/local/lib
     sudo cp $lib_backup_dir/libsphinx* /usr/local/lib
     sudo cp -r "$lib_backup_dir/sphinxtrain" /usr/local/lib
+    sudo chmod +x /usr/local/lib/*
 
 }
 
