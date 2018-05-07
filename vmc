@@ -118,7 +118,7 @@ else
     current_number_of_recordings='0'
 fi
 
-if [ $4 = '-newrecordings' ] && [ -d "$audio_folder" ]; then 
+if [ $4 = '-newrecordings' ] && [ -d "$audio_folder" ] && [ "$(ls -A $audio_folder)" ]; then 
     echo -n "AUDIO already exists at this directory! Press [enter] to overwrite."; read
     sudo rm -r $audio_folder; mkdir $audio_folder
 fi
